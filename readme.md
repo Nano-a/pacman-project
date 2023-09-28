@@ -13,7 +13,7 @@ Objectifs de développement :
 - déboguer
 - rationaliser et documenter le code
 - implémenter tout ce qu'on trouve dans tout PacMan de base: le labyrinthe classique, les stratégies des fantômes, les bonus à ramasser, l'effet des super pac-gommes, ...)
-- aller plus loin : plusieurs niveaux, 3D, multijoueur, ... (ce ne sont que des suggestions)
+- aller plus loin : plusieurs niveaux, 3D(RTX ON), multijoueur(CO-OP), hardcore mode ... (ce ne sont que des suggestions)
 
 ## Instructions
 
