@@ -2,6 +2,7 @@ package gui;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
+import javafx.geometry.Pos;
 
 public class Menu extends VBox{
 
@@ -27,7 +28,12 @@ public class Menu extends VBox{
 
          */
 
+        
         getChildren().addAll(jouer,parametres,quitter);
+        setAlignment(Pos.CENTER);
+
+        // Espacement entre les boutons 
+        setSpacing(10);
     }
 
     public Button getJouerButton() {
