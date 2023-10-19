@@ -7,12 +7,20 @@ import geometry.RealCoordinates;
 import java.util.List;
 import java.util.Map;
 
+import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
 import static model.Ghost.*;
 
 public final class MazeState {
     private final MazeConfig config;
     private final int height;
     private final int width;
+    private final Label scoreLabel = new Label();
 
     private final boolean[][] gridState;
 
@@ -26,6 +34,9 @@ public final class MazeState {
         this.config = config;
         height = config.getHeight();
         width = config.getWidth();
+        scoreLabel.setText("Score: " + score);
+        VBox vbox = new VBox();
+        vbox.getChildren().add(scoreLabel);
         critters = List.of(PacMan.INSTANCE, Ghost.CLYDE, BLINKY, INKY, PINKY);
         gridState = new boolean[height][width];
         initialPos = Map.of(
@@ -57,41 +68,47 @@ public final class MazeState {
             var nextPos = critter.nextPos(deltaTns);
             var curNeighbours = curPos.intNeighbours();
             var nextNeighbours = nextPos.intNeighbours();
-            if (!curNeighbours.containsAll(nextNeighbours)) { // the critter would overlap new cells. Do we allow it?
+            boolean wallCollision = false; // booléan qui va permettre de savoir quand pacman touche un mur
+            if (!curNeighbours.containsAll(nextNeighbours)) {
                 switch (critter.getDirection()) {
                     case NORTH -> {
-                        for (var n: curNeighbours) if (config.getCell(n).northWall()) {
-                            nextPos = curPos.floorY();
-                            critter.setDirection(Direction.NONE);
-                            break;
+                        for (var n: curNeighbours) {
+                            if (config.getCell(n).northWall()) {
+                                wallCollision = true;
+                                break;
+                            }
                         }
                     }
                     case EAST -> {
-                        for (var n: curNeighbours) if (config.getCell(n).eastWall()) {
-                            nextPos = curPos.ceilX();
-                            critter.setDirection(Direction.NONE);
-                            break;
+                        for (var n: curNeighbours) {
+                            if (config.getCell(n).eastWall()) {
+                                wallCollision = true;
+                                break;
+                            }
                         }
                     }
                     case SOUTH -> {
-                        for (var n: curNeighbours) if (config.getCell(n).southWall()) {
-                            nextPos = curPos.ceilY();
-                            critter.setDirection(Direction.NONE);
-                            break;
+                        for (var n: curNeighbours) {
+                            if (config.getCell(n).southWall()) {
+                                wallCollision = true;
+                                break;
+                            }
                         }
                     }
                     case WEST -> {
-                        for (var n: curNeighbours) if (config.getCell(n).westWall()) {
-                            nextPos = curPos.floorX();
-                            critter.setDirection(Direction.NONE);
-                            break;
+                        for (var n: curNeighbours) {
+                            if (config.getCell(n).westWall()) {
+                                wallCollision = true;
+                                break;
+                            }
                         }
                     }
                 }
-
             }
-
-            critter.setPos(nextPos.warp(width, height));
+            // Update position only if there is no wall collision
+            if (!wallCollision) {
+                critter.setPos(nextPos.warp(width, height));
+            }
         }
         // FIXME Pac-Man rules should somehow be in Pacman class
         var pacPos = PacMan.INSTANCE.getPos().round();
@@ -132,6 +149,7 @@ public final class MazeState {
         System.out.println("Lives: " + lives);
         resetCritters();
     }
+
 
     private void resetCritter(Critter critter) {
         critter.setDirection(Direction.NONE);

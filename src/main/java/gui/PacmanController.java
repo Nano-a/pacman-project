@@ -13,11 +13,12 @@ public class PacmanController {
                     case RIGHT -> Direction.EAST;
                     case UP -> Direction.NORTH;
                     case DOWN -> Direction.SOUTH;
+                    case STOP -> Direction.STOP;
                     default -> PacMan.INSTANCE.getDirection(); // do nothing
                 }
         );
     }
-    public void keyReleasedHandler(KeyEvent event) {
-        // Nothing to do?
-    }
+     public void keyReleasedHandler(KeyEvent event) {
+        PacMan.INSTANCE.setDirection(Direction.STOP); // afin que la pacamn s'arrête quand je relache la touche
+    } 
 }
