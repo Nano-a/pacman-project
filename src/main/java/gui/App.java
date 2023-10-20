@@ -17,7 +17,7 @@ public class App extends Application {
         gameScene.setOnKeyPressed(pacmanController::keyPressedHandler);
         gameScene.setOnKeyReleased(pacmanController::keyReleasedHandler);
         var maze = new MazeState(MazeConfig.makeExample1());
-        var gameView = new GameView(maze, root, 100.0);
+        var gameView = new GameView(maze, root, 70.0);
         
 
         Menu menu = new Menu();
@@ -33,7 +33,7 @@ public class App extends Application {
         menu.getQuitterButton().setOnAction(e-> System.exit(0));
 
         primaryStage.setScene(new Scene(menu,800,600));
-        primaryStage.setTitle("P A C M A N");
+        primaryStage.setTitle("PAC-MAN");
         primaryStage.show();
         
     }
