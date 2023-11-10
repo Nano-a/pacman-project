@@ -6,4 +6,4 @@ package gameobjects;
 
 public enum OtherObjects {
     MAZE, MAZE_FLICKER, LIFE, GHOST_WALL, GPL, BONUS_ITEM
-}
+}o
