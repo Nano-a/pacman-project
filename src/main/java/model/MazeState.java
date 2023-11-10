@@ -118,13 +118,12 @@ public final class MazeState {
     }
 
     private void displayScore() {
-        // FIXME: this should be displayed in the JavaFX view, not in the console
+        // FIXME : ceci doit être affiché dans la vue JavaFX, pas dans la console
         System.out.println("Score: " + score);
     }
 
     private void playerLost() {
-        // FIXME: this should be displayed in the JavaFX view, not in the console. A game over screen would be nice too.
-        lives--;
+        //FIXME : ceci doit être affiché dans la vue JavaFX, pas dans la console. Un jeu sur écran serait bien aussi.        lives--;
         if (lives == 0) {
             System.out.println("Game over!");
             System.exit(0);
@@ -149,4 +148,20 @@ public final class MazeState {
     public boolean getGridState(IntCoordinates pos) {
         return gridState[pos.y()][pos.x()];
     }
+    
+    public boolean isWall(RealCoordinates coordinates) {
+        // Cette méthode doit retourner vrai si les coordonnées correspondent à un mur du labyrinthe.
+        // Vous devrez implémenter cela en fonction de la façon dont votre labyrinthe est représenté en mémoire.
+        return false; // Placeholder for compilation
+    }
+
+    public boolean isDirectionAvailable(RealCoordinates pos, Direction direction) {
+        // Supposons que chaque étape de mouvement ait la taille d'une cellule
+        RealCoordinates newPos = pos.offset(direction, 1);
+
+        // Vérifiez si la nouvelle position n'est pas un mur
+        return !isWall(newPos);
+    }
+    
+    
 }
