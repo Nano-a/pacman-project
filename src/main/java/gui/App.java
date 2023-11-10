@@ -9,6 +9,7 @@ import model.MazeState;
 
 
 public class App extends Application {
+    private Scene menuScene;
     @Override
     public void start(Stage primaryStage) {
         var root = new Pane();
@@ -21,6 +22,12 @@ public class App extends Application {
         
 
         Menu menu = new Menu();
+        
+        menuScene = new Scene(menu, 800, 600);
+        
+
+        ParametresMenu parametresMenu = new ParametresMenu(menu);
+
 
    
 
@@ -30,9 +37,14 @@ public class App extends Application {
             gameView.animate();
         } );
 
+        menu.getParametresButton().setOnAction(e -> {
+            primaryStage.setScene(new Scene(parametresMenu, 800, 600)); // Affiche la page des paramètres
+            primaryStage.show();
+        });
+
         menu.getQuitterButton().setOnAction(e-> System.exit(0));
 
-        primaryStage.setScene(new Scene(menu,800,600));
+        primaryStage.setScene(menuScene);
         primaryStage.setTitle("P A C M A N");
         primaryStage.show();
         
