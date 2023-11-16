@@ -83,10 +83,10 @@ public enum Ghost implements Critter {
     };
     
     // This is a helper method to determine direction based on the current position and target position
-    private Direction determineDirection(MazeState maze, RealCoordinates currentPos, RealCoordinates targetPos) {
+    private static Direction determineDirection(MazeState maze, RealCoordinates currentPos, RealCoordinates targetPos) {
         Direction bestDirection = Direction.NONE;
         double smallestDistance = Double.MAX_VALUE;
-
+    
         for (Direction direction : Direction.values()) {
             if (maze.isDirectionAvailable(currentPos, direction)) {
                 RealCoordinates newPos = currentPos.offset(direction, 1);
@@ -101,13 +101,13 @@ public enum Ghost implements Critter {
         return bestDirection;
     }
 
-    private Direction takeRandomDirection(MazeState maze, RealCoordinates currentPos) {
+    private static Direction takeRandomDirection(MazeState maze, RealCoordinates currentPos) {
         List<Direction> availableDirections = new ArrayList<>();
         for (Direction direction : Direction.values()) {
             if (maze.isDirectionAvailable(currentPos, direction)) {
                 availableDirections.add(direction);
             }
-        }
+        }    
 
         if (!availableDirections.isEmpty()) {
             int randomIndex = new Random().nextInt(availableDirections.size());
