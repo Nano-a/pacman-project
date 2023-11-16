@@ -19,17 +19,11 @@ public class App extends Application {
         gameScene.setOnKeyReleased(pacmanController::keyReleasedHandler);
         var maze = new MazeState(MazeConfig.makeExample1());
         var gameView = new GameView(maze, root, 100.0);
-        
 
         Menu menu = new Menu();
-        
-        menuScene = new Scene(menu, 800, 600);
-        
+        menuScene = new Scene(menu, 875, 600);
 
         ParametresMenu parametresMenu = new ParametresMenu(menu);
-
-
-   
 
         menu.getJouerButton().setOnAction(e->{
             primaryStage.setScene(gameScene);
@@ -38,7 +32,7 @@ public class App extends Application {
         } );
 
         menu.getParametresButton().setOnAction(e -> {
-            primaryStage.setScene(new Scene(parametresMenu, 800, 600)); // Affiche la page des paramètres
+            primaryStage.setScene(new Scene(parametresMenu, 875, 600)); // Affiche la page des paramètres
             primaryStage.show();
         });
 
