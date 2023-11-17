@@ -33,6 +33,7 @@ public final class MazeState {
                 BLINKY, config.getBlinkyPos().toRealCoordinates(1.0),
                 INKY, config.getInkyPos().toRealCoordinates(1.0),
                 CLYDE, config.getClydePos().toRealCoordinates(1.0),
+                //Pinky
                 PINKY, config.getPinkyPos().toRealCoordinates(1.0)
         );
         resetCritters();

@@ -28,6 +28,7 @@ public class CellGraphicsFactory {
         dot.setCenterX(scale/2);
         dot.setCenterY(scale/2);
         dot.setFill(Color.YELLOW);
+        
         if (cell.northWall()) {
             var nWall = new Rectangle();
             nWall.setHeight(scale/10);
