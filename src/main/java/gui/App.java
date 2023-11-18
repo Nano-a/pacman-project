@@ -2,6 +2,7 @@ package gui;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import config.MazeConfig;
@@ -38,8 +39,10 @@ public class App extends Application {
 
         menu.getQuitterButton().setOnAction(e-> System.exit(0));
 
+        Image icon = new Image("file:src/main/resources/inky.gif");
+        primaryStage.getIcons().add(icon);
         primaryStage.setScene(menuScene);
-        primaryStage.setTitle("P A C M A N");
+        primaryStage.setTitle("Pacman");
         primaryStage.show();
         
     }
