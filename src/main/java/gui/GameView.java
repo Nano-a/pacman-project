@@ -3,6 +3,7 @@ package gui;
 import geometry.IntCoordinates;
 import javafx.animation.AnimationTimer;
 import javafx.scene.layout.Pane;
+import javafx.scene.control.Label;
 import model.MazeState;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class GameView {
     // class parameters
     private final MazeState maze;
     private final Pane gameRoot; // main node of the game
+    // private final Label scoreLabel; // Label to display th
 
     private final List<GraphicsUpdater> graphicsUpdaters;
 
@@ -28,6 +30,11 @@ public class GameView {
     public GameView(MazeState maze, Pane root, double scale) {
         this.maze = maze;
         this.gameRoot = root;
+        // Create and configure the score label
+       /* scoreLabel = new Label();
+        scoreLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: white;");
+        scoreLabel.setLayoutY(10); // Adjust the Y position for the label
+        gameRoot.getChildren().add(scoreLabel); // Add the label to the game root */
         // pixels per cell
         root.setMinWidth(maze.getWidth() * scale);
         root.setMinHeight(maze.getHeight() * scale);
@@ -39,6 +46,7 @@ public class GameView {
         for (int x = 0; x < maze.getWidth(); x++)
             for (int y = 0; y < maze.getHeight(); y++)
                 addGraphics(cellFactory.makeGraphics(maze, new IntCoordinates(x, y)));
+
     }
 
     public void animate() {
@@ -56,8 +64,14 @@ public class GameView {
                 for (var updater : graphicsUpdaters) {
                     updater.update();
                 }
+               // updateScoreLabel(); // Update the score label
                 last = now;
             }
         }.start();
     }
+
+    /*private void updateScoreLabel() {
+        scoreLabel.setText("Score: " + maze.getScore()); // Update the score label text
+    }*/
+
 }
