@@ -12,8 +12,13 @@ import java.util.List;
 public class GameView {
     // class parameters
     private final MazeState maze;
-    private final Pane gameRoot; // main node of the game
-    // private final Label scoreLabel; // Label to display th
+    public static Pane gameRoot = null;
+
+    private final Label scoreLabel; // The score label
+
+    private final Label livesLabel; // The lives label
+
+    // main node of the game
 
     private final List<GraphicsUpdater> graphicsUpdaters;
 
@@ -31,10 +36,16 @@ public class GameView {
         this.maze = maze;
         this.gameRoot = root;
         // Create and configure the score label
-       /* scoreLabel = new Label();
+        scoreLabel = new Label();
         scoreLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: white;");
-        scoreLabel.setLayoutY(10); // Adjust the Y position for the label
+        scoreLabel.setLayoutY(50); // Adjust the Y position for the label
         gameRoot.getChildren().add(scoreLabel); // Add the label to the game root */
+        // Create and configure the lives label
+        livesLabel = new Label();
+        livesLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: white;");
+        livesLabel.setLayoutY(80); // Adjust the Y position for the label
+        gameRoot.getChildren().add(livesLabel); // Add the label to the game root */
+
         // pixels per cell
         root.setMinWidth(maze.getWidth() * scale);
         root.setMinHeight(maze.getHeight() * scale);

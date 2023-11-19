@@ -1,8 +1,10 @@
 package model;
+import gui.GameView;
 
 import config.MazeConfig;
 import geometry.IntCoordinates;
 import geometry.RealCoordinates;
+import javafx.scene.control.Label;
 
 import java.util.List;
 import java.util.Map;
@@ -33,7 +35,6 @@ public final class MazeState {
                 BLINKY, config.getBlinkyPos().toRealCoordinates(1.0),
                 INKY, config.getInkyPos().toRealCoordinates(1.0),
                 CLYDE, config.getClydePos().toRealCoordinates(1.0),
-                //Pinky
                 PINKY, config.getPinkyPos().toRealCoordinates(1.0)
         );
         resetCritters();
@@ -119,8 +120,13 @@ public final class MazeState {
     }
 
     private void displayScore() {
-        // FIXME: this should be displayed in the JavaFX view, not in the console
-        System.out.println("Score: " + score);
+        // delete the old score label
+        GameView.gameRoot.getChildren().removeIf(node -> node instanceof Label);
+        Label scoreLabel = new Label();
+        scoreLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: white; -fx-font-family: 'pixelmix'");
+        scoreLabel.setLayoutY(10); // Adjust the Y position for the label
+        scoreLabel.setText("SCORE: " + score); // Update the score label text
+        GameView.gameRoot.getChildren().add(scoreLabel); // Add the label to the game root
     }
 
     private void playerLost() {
@@ -128,9 +134,17 @@ public final class MazeState {
         lives--;
         if (lives == 0) {
             System.out.println("Game over!");
-            System.exit(0);
+            // create a gameover screen
+
         }
-        System.out.println("Lives: " + lives);
+        // display the number of lives left label
+        GameView.gameRoot.getChildren().removeIf(node -> node instanceof Label);
+        Label livesLabel = new Label();
+        GameView.gameRoot.getChildren().add(livesLabel); // Add the label to the game root
+        livesLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: white; -fx-font-family: 'pixelmix'");
+        livesLabel.setLayoutY(40); // Adjust the Y position for the label
+        livesLabel.setText("LIVES: " + lives); // Update the score label text
+
         resetCritters();
     }
 
