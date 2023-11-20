@@ -1,5 +1,7 @@
 package geometry;
 
+import model.Direction;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -67,5 +69,20 @@ public record RealCoordinates(double x, double y) {
         while (Math.round(rx) >= height)
             ry -= height;
         return new RealCoordinates(rx, ry);
+    }
+
+    public RealCoordinates offset(Direction direction, int i) {
+        return switch (direction) {
+            case NONE -> null;
+            case NORTH -> new RealCoordinates(x, y - i);
+            case EAST -> new RealCoordinates(x + i, y);
+            case SOUTH -> new RealCoordinates(x, y + i);
+            case WEST -> new RealCoordinates(x - i, y);
+            
+        };
+    }
+
+    public double distance(RealCoordinates pacManPos) {
+        return Math.sqrt(Math.pow(x - pacManPos.x, 2) + Math.pow(y - pacManPos.y, 2));
     }
 }

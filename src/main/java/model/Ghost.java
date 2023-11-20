@@ -36,6 +36,7 @@ public enum Ghost implements Critter {
         public Direction decideNextDirection(MazeState maze, PacMan pacMan) {
             RealCoordinates pinkyPos = this.getPos();
             RealCoordinates targetPos = pacMan.getPos().offset(pacMan.getDirection(), 4);
+
     
             // Implement the logic to choose the direction based on targetPos
             // and the current position of Pinky, ensuring it's not a wall.
