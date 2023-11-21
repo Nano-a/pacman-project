@@ -60,12 +60,14 @@ public class MazeConfig {
     // TODO: mazes should be loaded from a text file
     public static MazeConfig makeExample1() {
         return new MazeConfig(new Cell[][]{
-                {nTee(DOT),    hPipe(DOT),     hPipe(DOT),     hPipe(DOT),     hPipe(DOT),     nTee(DOT)},
-                {vPipe(DOT),    seVee(NOTHING), nTee(NOTHING),  nTee(NOTHING),  swVee(NOTHING), vPipe(DOT)},
-                {vPipe(DOT),     wTee(NOTHING),  open(NOTHING),  open(NOTHING),  eTee(NOTHING),  vPipe(DOT)},
-                {vPipe(DOT),    wTee(NOTHING),  open(NOTHING),  open(NOTHING),  eTee(NOTHING),  vPipe(DOT)},
-                {vPipe(DOT),    neVee(NOTHING), sTee(NOTHING),  sTee(NOTHING),   nwVee(NOTHING), vPipe(DOT)},
-                {neVee(DOT),    hPipe(DOT),     hPipe(DOT),     hPipe(DOT),     hPipe(DOT),     nwVee(DOT)}
+                {corner('n', 'w', DOT),   pipe('h', DOT),    shapeT('n', DOT),    pipe('h', DOT),   pipe('h', DOT),     corner('n', 'e', DOT)},
+                {corner('s', 'w', DOT),   shapeT('n', DOT),   shapeT('s', NOTHING),  pipe('h', DOT), shapeT('n', DOT), corner('s', 'e', DOT)},
+                {shapeU('w', NOTHING),   shapeT('w', DOT),    pipe('h', DOT),  pipe('h', DOT),   shapeT('e', DOT),  shapeU('e', DOT)},
+                {pipe('h', DOT), open(DOT), pipe('h', DOT),  pipe('h', DOT),  open(DOT), pipe('h', DOT)},
+                {shapeU('w', NOTHING),   pipe('v', DOT),    shapeU('e', NOTHING),  shapeU('w', NOTHING),   pipe('v', DOT),  shapeU('e', NOTHING)},
+                {pipe('h', DOT),    shapeT('s', DOT),     pipe('h', DOT),     pipe('h', DOT),     shapeT('s', DOT),     pipe('h', DOT)}
+
+
         },
                 new IntCoordinates(3, 0),
                 new IntCoordinates(0, 3),
