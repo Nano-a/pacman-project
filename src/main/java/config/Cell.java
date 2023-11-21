@@ -2,26 +2,100 @@ package config;
 
 public record Cell(boolean northWall, boolean eastWall, boolean southWall, boolean westWall, Cell.Content initialContent) {
     public enum Content { NOTHING, DOT, ENERGIZER}
-    // FIXME: all these factories are convenient, but it is not very "economic" to have so many methods!
+
+    // Default constructor
+    public Cell(boolean northWall, boolean eastWall, boolean southWall, boolean westWall, Content initialContent) {
+        this.northWall = northWall;
+        this.eastWall = eastWall;
+        this.southWall = southWall;
+        this.westWall = westWall;
+        this.initialContent = initialContent;
+    }
+
+    // FIXED: multimple factories reduced to few simple ones!
     public static Cell open(Content c) { return new Cell(false, false, false, false, c); }
     public static Cell closed(Content c) { return new Cell(true, true, false, false, c); }
     // straight pipes
-    public static Cell hPipe(Content c) { return new Cell(true, false, true, false, c); }
-    public static Cell vPipe(Content c) { return new Cell(false, true, false, true, c); }
-    // corner cells
-    public static Cell swVee(Content c) { return new Cell(true, true, false, false, c); }
-    public static Cell nwVee(Content c) { return new Cell(false, true, true, false, c); }
-    public static Cell neVee(Content c) { return new Cell(false, false, true, true, c); }
-    public static Cell seVee(Content c) { return new Cell(true, false, false, true, c); }
-    // T-shaped cells
-    public static Cell nU(Content c) { return new Cell(false, true, true, true, c); }
-    public static Cell eU(Content c) { return new Cell(true, false, true, true, c); }
-    public static Cell sU(Content c) { return new Cell(true, true, false, true, c); }
-    public static Cell wU(Content c) { return new Cell(true, true, true, false, c); }
-    // U-shaped cells
-    public static Cell nTee(Content c) { return new Cell(true, false, false, false, c); }
-    public static Cell eTee(Content c) { return new Cell(false, true, false, false, c); }
-    public static Cell sTee(Content c) { return new Cell(false, false, true, false, c); }
-    public static Cell wTee(Content c) { return new Cell(false, false, false, true, c); }
+    public static Cell pipe(char polarity, Content c) {
+        boolean northWall = false;
+        boolean eastWall = false;
+        boolean southWall = false;
+        boolean westWall = false;
 
+        if (polarity == 'h') {
+            northWall = true;
+            southWall = true;
+        } else if (polarity == 'v') {
+            eastWall = true;
+            westWall = true;
+        }
+
+        return new Cell(northWall, eastWall, southWall, westWall, c);
+    }
+    // corner cells
+    public static Cell corner(char wall1, char wall2, Content c) {
+        boolean northWall = false;
+        boolean eastWall = false;
+        boolean southWall = false;
+        boolean westWall = false;
+
+        if (wall1 == 'n' && wall2 == 'e') {
+            northWall = true;
+            eastWall = true;
+        }
+        if (wall1 == 'n' && wall2 == 'w') {
+            northWall = true;
+            westWall = true;
+        }
+        if (wall1 == 's' && wall2 == 'e') {
+            southWall = true;
+            eastWall = true;
+        }
+        if (wall1 == 's' && wall2 == 'w') {
+            southWall = true;
+            westWall = true;
+        }
+
+        return new Cell(northWall, eastWall, southWall, westWall, c);
+    }
+    // u-shaped cells
+    public static Cell shapeU(char polarity, Content c) {
+        boolean northWall = true;
+        boolean eastWall = true;
+        boolean southWall = true;
+        boolean westWall = true;
+
+        if (polarity == 'n') {
+            northWall = false;
+        } else if (polarity == 'e') {
+            eastWall = false;
+        } else if (polarity == 's') {
+            southWall = false;
+        } else if (polarity == 'w') {
+            westWall = false;
+        }
+
+        return new Cell(northWall, eastWall, southWall, westWall, c);
+    }
+    // T-shaped Cells
+    public static Cell shapeT(char polarity, Content c) {
+        boolean northWall = false;
+        boolean eastWall = false;
+        boolean southWall = false;
+        boolean westWall = false;
+
+        if (polarity == 'n') {
+            northWall = true;
+        } else if (polarity == 'e') {
+            eastWall = true;
+        } else if (polarity == 's') {
+            southWall = true;
+        } else if (polarity == 'w') {
+            westWall = true;
+        }
+
+        return new Cell(northWall, eastWall, southWall, westWall, c);
+    }
 }
+
+
