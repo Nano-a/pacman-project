@@ -29,12 +29,12 @@ public class CellGraphicsFactory {
         dot.setCenterY(scale/2);
         dot.setFill(Color.YELLOW);
         if (cell.northWall()) {
-            var nWall = new Rectangle();
+            var nWall = new Rectangle(); // FIXME : better to be with an image of something related to the jungle theme
             nWall.setHeight(scale/10);
             nWall.setWidth(scale);
             nWall.setY(0);
             nWall.setX(0);
-            nWall.setFill(Color.BLUEVIOLET);
+            nWall.setFill(Color.GREEN);
             group.getChildren().add(nWall);
         }
         if (cell.eastWall()) {
@@ -43,7 +43,7 @@ public class CellGraphicsFactory {
             nWall.setWidth(scale/10);
             nWall.setY(0);
             nWall.setX(9*scale/10);
-            nWall.setFill(Color.BLUEVIOLET);
+            nWall.setFill(Color.GREEN);
             group.getChildren().add(nWall);
         }
         if (cell.southWall()) {
@@ -52,7 +52,7 @@ public class CellGraphicsFactory {
             nWall.setWidth(scale);
             nWall.setY(9*scale/10);
             nWall.setX(0);
-            nWall.setFill(Color.BLUEVIOLET);
+            nWall.setFill(Color.GREEN);
             group.getChildren().add(nWall);
         }
         if (cell.westWall()) {
@@ -61,8 +61,11 @@ public class CellGraphicsFactory {
             nWall.setWidth(scale/10);
             nWall.setY(0);
             nWall.setX(0);
-            nWall.setFill(Color.BLUEVIOLET);
+            nWall.setFill(Color.GREEN);
             group.getChildren().add(nWall);
+        }
+        if (state.getGridState(pos)) {
+            dot.setFill(Color.TRANSPARENT); // Or any color for visited cells
         }
         return new GraphicsUpdater() {
             @Override
@@ -77,3 +80,4 @@ public class CellGraphicsFactory {
         };
     }
 }
+
