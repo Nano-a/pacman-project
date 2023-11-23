@@ -78,7 +78,7 @@ public class App extends Application {
 
                 // new Maze
                 var maze = new MazeState(MazeConfig.makeExample1());
-                var gameView = new GameView(maze,(Pane) gameScene.getRoot(), 20.0); // Don't touch the scale
+                var gameView = new GameView(maze,(Pane) gameScene.getRoot(), 24.0); // Don't touch the scale
 
 
                 primaryStage.setScene(gameScene);

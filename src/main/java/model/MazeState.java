@@ -74,7 +74,7 @@ public final class MazeState {
                         }
                     }
                     case SOUTH -> {
-                        for (var n: curNeighbours) if (config.getCell(n).southWall()) {
+                        for (var n: curNeighbours) if (config.getCell(n).southWall() || config.getCell(n).northWall() || config.getCell(n).eastWall() || config.getCell(n).westWall()) {
                             nextPos = curPos.ceilY();
                             critter.setDirection(Direction.NONE);
                             break;
