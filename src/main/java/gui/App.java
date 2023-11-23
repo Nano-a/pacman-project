@@ -73,7 +73,7 @@ public class App extends Application {
             menu.getJouerButton().setOnAction(e->{
                 var pacmanController = new PacmanController(); //Pour controller le pacman avec les touches du clavier
                 gameScene.setOnKeyPressed(pacmanController::keyPressedHandler);
-                gameScene.setOnKeyReleased(pacmanController::keyReleasedHandler);
+//                gameScene.setOnKeyReleased(pacmanController::keyReleasedHandler);
                 ((AnchorPane) gameScene.getRoot()).getChildren().removeAll(imageView);
 
                 // new Maze

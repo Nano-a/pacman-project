@@ -18,7 +18,7 @@ public class PacmanController {
                 }
         );
     }
-     public void keyReleasedHandler(KeyEvent event) {
-        PacMan.INSTANCE.setDirection(Direction.STOP); // afin que la pacamn s'arrête quand je relache la touche
-    } 
+//     public void keyReleasedHandler(KeyEvent event) {
+//        PacMan.INSTANCE.setDirection(Direction.STOP); // afin que la pacamn s'arrête quand je relache la touche
+//    }
 }
