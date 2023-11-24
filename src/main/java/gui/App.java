@@ -1,5 +1,6 @@
 package gui;
 
+import enums.FxmlFiles;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 import javafx.application.Application;
@@ -21,8 +22,11 @@ import java.util.Objects;
 public class App extends Application {
     // Attributs et champs de la classe
     public static Rectangle2D screen = Screen.getPrimary().getBounds(); // Les dimensions de l'écran du joueur ( utile si on a envie de mettre le jeu en plein écran )\
-    private static Stage primaryStage = null;
-    Scene menuScene ; // La scène du menu
+     static Stage primaryStage = null;
+
+     public static Scene gameScene ;
+      public static ImageView imageView ;
+    SceneManager menu ;
 
     //private Scenes current ; // Qui permet d'afficher les scènes dans le stage et de switcher entre les pages
     // Changer l'implementation du menu au lieu de Vbox on utilisera des fichiers FXML
@@ -42,12 +46,14 @@ public class App extends Application {
         Canvas zoneDesign = new Canvas(875, 600); // zone de dessin rectangulaire sur laquelle on peut mettre des images, boutons ...
         // Dimension du pacMan Classique 875*600
         Scene gameScene = new Scene(new AnchorPane(zoneDesign));
+        this.gameScene = gameScene ;
         /* AnchorPane est un type spécifique de Pane qui utilise un système de positionnement basé sur les ancres (anchors).
             Il permet de positionner les éléments enfants. */
 
 
         // Load and display an animated GIF qui sera temporairement affiché avant le début du jeu
         ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/JunglePacman.gif")))); //GIF animation d'entrée dans le jeu
+        this.imageView = imageView ;
         AnchorPane.setTopAnchor(imageView, 0.0);
         AnchorPane.setLeftAnchor(imageView, 0.0);
         AnchorPane.setRightAnchor(imageView, 0.0);
@@ -58,38 +64,17 @@ public class App extends Application {
 
         primaryStage.setScene(gameScene); // On ajoute la scène au stage
         primaryStage.sizeToScene(); // On adapte la taille de la fenêtre à la scène
-        primaryStage.setAlwaysOnTop(true); // On met la fenêtre au premier plan
+        primaryStage.setAlwaysOnTop(false);
         primaryStage.requestFocus();// On met le focus sur la fenêtre
         primaryStage.show(); // On affiche la fenêtre
 
         PauseTransition delay = new PauseTransition(Duration.millis(3000)); // On qffiche temporairement le gif JunglePacman
         delay.setOnFinished(event -> {
-
-            Menu menu = new Menu();
-            menuScene = new Scene(menu, 875, 600);
-            primaryStage.setScene(menuScene);
-            primaryStage.show();
-            ParametresMenu parametresMenu = new ParametresMenu(menu);
-            menu.getJouerButton().setOnAction(e->{
-                var pacmanController = new PacmanController(); //Pour controller le pacman avec les touches du clavier
-                gameScene.setOnKeyPressed(pacmanController::keyPressedHandler);
-                gameScene.setOnKeyReleased(pacmanController::keyReleasedHandler);
-                ((AnchorPane) gameScene.getRoot()).getChildren().removeAll(imageView);
-                var maze = new MazeState(MazeConfig.makeExample1());
-                var gameView = new GameView(maze,(Pane) gameScene.getRoot(), 100.0);
-                primaryStage.setScene(gameScene);
-                primaryStage.show();
-                gameView.animate();
-            } );
-            menu.getParametresButton().setOnAction(e -> {
-                primaryStage.setScene(new Scene(parametresMenu, 875, 600)); // Affiche la page des paramètres
-                primaryStage.show();
-            });
-            menu.getQuitterButton().setOnAction(e-> System.exit(0));
+            //Appel vers le premier fichier fxml : Menu.fxml
+            this.menu = new SceneManager(primaryStage);
+            this.menu.callInitialScene(FxmlFiles.MENU);
         });
         delay.play();
-
-
 
 
         

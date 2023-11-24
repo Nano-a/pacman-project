@@ -13,7 +13,7 @@ import javafx.scene.layout.VBox;
 import java.util.Objects;
 
 public class ParametresMenu extends StackPane {
-    private Button retour;
+    /*private Button retour;
     private Button son;
     private Button langue;
     private Menu menu;
@@ -57,16 +57,16 @@ public class ParametresMenu extends StackPane {
     menu.setVisible(true); */
             //METTRE L'INITIALISATION DU MENU DANS UNE FONCTION À RAPPELER ICI
     // Supprimer le menu des paramètres de la scène
-    getChildren().remove(buttonContainer);
+   /* getChildren().remove(buttonContainer);
 
     // Ajouter le menu principal à la scène
     getChildren().addAll(menu.getJouerButton(), 
-    menu.getParametresButton(), menu.getQuitterButton()); 
+    menu.getParametresButton(), menu.getQuitterButton());
     
            
           
         });
-    }
+    } */
 
     
 }
