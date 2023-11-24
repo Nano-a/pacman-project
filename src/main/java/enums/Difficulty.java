@@ -1,8 +1,7 @@
 package enums;
 
-import rules.GeneralRules;
     /**
-     * Representing the games difficulty levels, high score uses this to build itself.
+     * Representing the games difficulty levels.
      */
     public enum Difficulty {
         SLOW(0.7),
@@ -17,12 +16,6 @@ import rules.GeneralRules;
          */
         public double getSpeedScale() { return speedScale; }
 
-        /**
-         * @return timing scale for given difficulty.
-         */
-        public double getTimingScale() {
-            return GeneralRules.SCALE_RULE_TIMERS_WITH_SPEED ? 1 / speedScale : 1;
-        }
     }
 
 
