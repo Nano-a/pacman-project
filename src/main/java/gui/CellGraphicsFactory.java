@@ -23,12 +23,24 @@ public class CellGraphicsFactory {
         group.setTranslateY(pos.y()*scale);
         var cell = state.getConfig().getCell(pos);
         var dot = new Circle();
+        double radius;
         group.getChildren().add(dot);
-        dot.setRadius(switch (cell.initialContent()) { case DOT -> scale/15; case ENERGIZER -> scale/5; case NOTHING -> 0; });
+        switch (cell.initialContent()) {
+            case DOT:
+                radius = scale / 15;
+                break;
+            case ENERGIZER:
+                radius = scale / 5;
+                break;
+            case NOTHING:
+            default:
+                radius = 0;
+                break;
+        }
+        dot.setRadius(radius);
         dot.setCenterX(scale/2);
         dot.setCenterY(scale/2);
         dot.setFill(Color.YELLOW);
-        
         if (cell.northWall()) {
             var nWall = new Rectangle();
             nWall.setHeight(scale/10);

@@ -15,39 +15,30 @@ import javafx.stage.Stage;
 
 import config.MazeConfig;
 import model.MazeState;
-import java.util.Objects;
 
+import java.io.IOException;
+import java.util.Objects;
 
 public class App extends Application {
     // Attributs et champs de la classe
-    public static Rectangle2D screen = Screen.getPrimary().getBounds(); // Les dimensions de l'écran du joueur ( utile si on a envie de mettre le jeu en plein écran )\
+    public static Rectangle2D screen = Screen.getPrimary().getBounds(); // Les dimensions de l'écran du joueur
     private static Stage primaryStage = null;
-    Scene menuScene ; // La scène du menu
-
-    //private Scenes current ; // Qui permet d'afficher les scènes dans le stage et de switcher entre les pages
-    // Changer l'implementation du menu au lieu de Vbox on utilisera des fichiers FXML
+    Scene menuScene; // La scène du menu
 
     @Override
     public void start(Stage primaryStage) {
-        App.primaryStage = primaryStage; // On initialise le stage
+        App.primaryStage = primaryStage; // Initialisation du stage
 
-        // Les paramètres de la fenêtre
-        primaryStage.getIcons().clear(); // On enlève les icônes par défaut
-        primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Logo.png")))); // On ajoute notre icône
-        // A ne pas oublier Objects.requireNonNull() pour éviter les NullPointerException
-        primaryStage.setTitle("JUNGLE PACMAN"); // On donne un titre à la fenêtre
+        // Configuration de la fenêtre
+        primaryStage.getIcons().clear();
+        primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Logo.png")))); 
+        primaryStage.setTitle("JUNGLE PACMAN");
         primaryStage.setResizable(false);
 
-        // La scène
-        Canvas zoneDesign = new Canvas(875, 600); // zone de dessin rectangulaire sur laquelle on peut mettre des images, boutons ...
-        // Dimension du pacMan Classique 875*600
+        // Création de la scène de démarrage
+        Canvas zoneDesign = new Canvas(875, 600);
         Scene gameScene = new Scene(new AnchorPane(zoneDesign));
-        /* AnchorPane est un type spécifique de Pane qui utilise un système de positionnement basé sur les ancres (anchors).
-            Il permet de positionner les éléments enfants. */
-
-
-        // Load and display an animated GIF qui sera temporairement affiché avant le début du jeu
-        ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/JunglePacman.gif")))); //GIF animation d'entrée dans le jeu
+        ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/JunglePacman.gif"))));
         AnchorPane.setTopAnchor(imageView, 0.0);
         AnchorPane.setLeftAnchor(imageView, 0.0);
         AnchorPane.setRightAnchor(imageView, 0.0);
@@ -55,43 +46,66 @@ public class App extends Application {
         AnchorPane anchorPane = (AnchorPane) gameScene.getRoot();
         anchorPane.getChildren().add(imageView);
 
+        primaryStage.setScene(gameScene);
+        primaryStage.sizeToScene();
+        primaryStage.setAlwaysOnTop(true);
+        primaryStage.requestFocus();
+        primaryStage.show();
 
-        primaryStage.setScene(gameScene); // On ajoute la scène au stage
-        primaryStage.sizeToScene(); // On adapte la taille de la fenêtre à la scène
-        primaryStage.setAlwaysOnTop(true); // On met la fenêtre au premier plan
-        primaryStage.requestFocus();// On met le focus sur la fenêtre
-        primaryStage.show(); // On affiche la fenêtre
-
-        PauseTransition delay = new PauseTransition(Duration.millis(3000)); // On qffiche temporairement le gif JunglePacman
+        // Transition après l'animation de démarrage
+        PauseTransition delay = new PauseTransition(Duration.millis(3000));
         delay.setOnFinished(event -> {
+            // Retirer l'animation de démarrage
+            anchorPane.getChildren().remove(imageView);
 
+            // Passer au menu
             Menu menu = new Menu();
             menuScene = new Scene(menu, 875, 600);
             primaryStage.setScene(menuScene);
             primaryStage.show();
-            ParametresMenu parametresMenu = new ParametresMenu(menu);
-            menu.getJouerButton().setOnAction(e->{
-                var pacmanController = new PacmanController(); //Pour controller le pacman avec les touches du clavier
-                gameScene.setOnKeyPressed(pacmanController::keyPressedHandler);
-                gameScene.setOnKeyReleased(pacmanController::keyReleasedHandler);
-                ((AnchorPane) gameScene.getRoot()).getChildren().removeAll(imageView);
-                var maze = new MazeState(MazeConfig.makeExample1());
-                var gameView = new GameView(maze,(Pane) gameScene.getRoot(), 100.0);
-                primaryStage.setScene(gameScene);
-                primaryStage.show();
-                gameView.animate();
-            } );
-            menu.getParametresButton().setOnAction(e -> {
-                primaryStage.setScene(new Scene(parametresMenu, 875, 600)); // Affiche la page des paramètres
-                primaryStage.show();
-            });
-            menu.getQuitterButton().setOnAction(e-> System.exit(0));
+            // Configuration des actions des boutons du menu
+            configureMenuButtons(menu);
         });
         delay.play();
+    }
 
+    private void configureMenuButtons(Menu menu) {
+        // Bouton pour démarrer un nouveau jeu
+        menu.getJouerButton().setOnAction(e -> {
+            try {
+                var root = new Pane();
+                var gameScenes = new Scene(root);
+                var pacmanController = new PacmanController();
+                gameScenes.setOnKeyPressed(pacmanController::keyPressedHandler);
+                gameScenes.setOnKeyReleased(pacmanController::keyReleasedHandler);
+                // Utiliser le constructeur de MazeConfig avec le chemin du fichier
+                var mazeConfigs = new MazeConfig("mazeConfig.txt");
+                var maze = new MazeState(mazeConfigs);
+                var gameView = new GameView(maze, root, 70.0);
+                
+                // Suite de la configuration de la scène
+                primaryStage.setScene(gameScenes);
+                primaryStage.show();
+                gameView.animate();
+            } catch (IOException ioException) {
+                ioException.printStackTrace(); // Affichage de l'erreur dans la console
+                // Gestion de l'exception IOException
+            }
+        });
+    
+        // Bouton pour ouvrir les paramètres
+        menu.getParametresButton().setOnAction(e -> {
+            ParametresMenu parametresMenu = new ParametresMenu(menu);
+            primaryStage.setScene(new Scene(parametresMenu, 875, 600)); // Affiche la page des paramètres
+            primaryStage.show();
+        });
+    
+        // Bouton pour quitter l'application
+        menu.getQuitterButton().setOnAction(e -> System.exit(0));
+    }
+    
 
-
-
-        
+    public static void main(String[] args) {
+        launch(args);
     }
 }

@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.Set;
 
 public record RealCoordinates(double x, double y) {
+    // Définition de STOP_UNIT, probablement un vecteur nul
+    public static final RealCoordinates STOP_UNIT = new RealCoordinates(0, 0);
 
+    // Autres vecteurs unitaires
     public static final RealCoordinates ZERO = new RealCoordinates(0, 0);
     public static final RealCoordinates NORTH_UNIT = new RealCoordinates(0, -1);
     public static final RealCoordinates EAST_UNIT = new RealCoordinates(1, 0);
@@ -67,5 +70,10 @@ public record RealCoordinates(double x, double y) {
         while (Math.round(rx) >= height)
             ry -= height;
         return new RealCoordinates(rx, ry);
+    }
+
+    public RealCoordinates(double x, double y) {
+        this.x = x;
+        this.y = y;
     }
 }
