@@ -1,3 +1,8 @@
+/*
+ * Ce fichier définit une classe ClipUtil avec des méthodes pour créer un clip audio à partir
+ * d'une URL et pour régler le volume d'un clip. Les commentaires ajoutés expliquent chaque étape
+ * du processus de création et de manipulation des clips audio.
+ */
 package audio;
 
 import java.io.ByteArrayOutputStream;
@@ -9,12 +14,16 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 
+
+// La classe ClipUtil fournit des utilitaires pour créer et manipuler des clips audio.
 public class ClipUtil {
 
     // Crée un clip audio à partir d'une URL en convertissant le format audio.
     static Clip createClip(URL location) {
         try (AudioInputStream in = AudioSystem.getAudioInputStream(location)) {
+            // Obtenir le format du flux audio
             AudioFormat baseFormat = in.getFormat();
+            // Créer un format audio décodé
             AudioFormat decodedFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, baseFormat.getSampleRate(), 16, baseFormat.getChannels(), baseFormat.getChannels() * 2, baseFormat.getSampleRate(), false);
             AudioInputStream din = AudioSystem.getAudioInputStream(decodedFormat, in);
             Clip clip = AudioSystem.getClip();
@@ -46,12 +55,14 @@ public class ClipUtil {
         return (float) Math.pow(10f, gainControl.getValue() / 20f);
     }
 
-    //met a jour le volume
+    // Régler le volume d'un clip audio
     static void setVolume(float volume, Clip clip) {
         if (volume < 0f || volume > 1f) { 
             throw new IllegalArgumentException("Volume not valid: " + volume); 
         }
+        // Obtenir le contrôle du volume
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        // Ajuster le volume
         gainControl.setValue(20f * (float) Math.log10(volume));
     }
 
