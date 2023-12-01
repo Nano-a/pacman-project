@@ -57,12 +57,10 @@ public class App extends Application {
         AnchorPane anchorPane = (AnchorPane) gameScene.getRoot();
         anchorPane.getChildren().add(imageView);
 
-        primaryStage.setScene(gameScene);
-        primaryStage.sizeToScene();
+        primaryStage.setScene(gameScene); // Définition de la scène initiale dans la fenêtre principale.
         primaryStage.setAlwaysOnTop(true);
         primaryStage.requestFocus();
-        // Affichage de la fenêtre principale.
-        primaryStage.show();
+        primaryStage.show();// Affichage de la fenêtre principale.
 
         // Transition après l'animation de démarrage
         PauseTransition delay = new PauseTransition(Duration.millis(3000));
@@ -78,9 +76,11 @@ public class App extends Application {
             // Configuration des actions des boutons du menu
             configureMenuButtons(menu);
         });
+        // Jouer l'animation de démarrage et passer ensuite au menu principal.
         delay.play();
     }
 
+    // Méthode pour configurer les actions des boutons du menu.
     private void configureMenuButtons(Menu menu) {
         // Bouton pour démarrer un nouveau jeu
         menu.getJouerButton().setOnAction(e -> {

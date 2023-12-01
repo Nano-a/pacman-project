@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
+  <!-- Component est l'élément qui définit les paramètres du module -->
   <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <!-- Exclut les dossiers de sortie (par exemple, les dossiers 'bin') du module -->
     <exclude-output />
+    <!-- Définit le contenu du module, en l'occurrence le dossier du module -->
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" packagePrefix="de.hshannover.inform.gnuman.app.enums.gameobjects" />
+      <!-- Définit un dossier source pour le module -->
+      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" 
+                   packagePrefix="de.hshannover.inform.gnuman.app.enums.gameobjects" />
     </content>
+    <!-- Ajoute une entrée de commande pour hériter du JDK utilisé dans le projet -->
     <orderEntry type="inheritedJdk" />
+    <!-- Ajoute une entrée de commande pour les dossiers sources -->
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

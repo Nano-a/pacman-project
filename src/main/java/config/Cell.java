@@ -1,8 +1,19 @@
+/*
+ * Cette class est défini pour représenter une cellule du labyrinthe, avec des murs sur
+ * chaque côté et un contenu initial. Un modèle de conception Builder est utilisé pour
+ * créer des instances de Cell de manière flexible.
+ */
 package config;
 
+// Définit un enregistrement pour représenter une cellule dans le labyrinthe du jeu.
 public record Cell(boolean northWall, boolean eastWall, boolean southWall, boolean westWall, Cell.Content initialContent) {
-    public enum Content { NOTHING, DOT, ENERGIZER, WALL}
+
+    // Énumération pour définir le contenu initial d'une cellule : rien, point, énergisant, ou mur.
+    public enum Content { NOTHING, DOT, ENERGIZER, WALL }
+
+    // Classe Builder pour construire des objets Cell de manière flexible.
     public static class Builder {
+        // Champs privés pour les propriétés d'une cellule.
         private boolean northWall = false;
         private boolean eastWall = false;
         private boolean southWall = false;
@@ -34,6 +45,7 @@ public record Cell(boolean northWall, boolean eastWall, boolean southWall, boole
             return this;
         }
 
+        // Méthode build pour créer une instance de Cell avec les propriétés définies.
         public Cell build() {
             return new Cell(northWall, eastWall, southWall, westWall, content);
         }
