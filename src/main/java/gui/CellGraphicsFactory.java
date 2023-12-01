@@ -1,3 +1,8 @@
+/*
+ * Ce fichier joue un rôle crucial dans la représentation graphique des cellules
+ * du labyrinthe dans le jeu
+ */
+
 package gui;
 
 import geometry.IntCoordinates;
@@ -10,13 +15,16 @@ import model.MazeState;
 
 import static config.Cell.Content.DOT;
 
+// Cette classe est responsable de la création des éléments graphiques pour les cellules du labyrinthe.
 public class CellGraphicsFactory {
     private final double scale;
 
+    // Constructeur de la classe. Prend un paramètre d'échelle pour le rendu graphique.
     public CellGraphicsFactory(double scale) {
         this.scale = scale;
     }
 
+    // Méthode pour créer les éléments graphiques d'une cellule du labyrinthe basée sur son état.
     public GraphicsUpdater makeGraphics(MazeState state, IntCoordinates pos) {
         var group = new Group();
         group.setTranslateX(pos.x()*scale);
@@ -25,6 +33,7 @@ public class CellGraphicsFactory {
         var dot = new Circle();
         double radius;
         group.getChildren().add(dot);
+        // Utilise l'état du labyrinthe et la position pour déterminer le contenu de la cellule.
         switch (cell.initialContent()) {
             case DOT:
                 radius = scale / 15;

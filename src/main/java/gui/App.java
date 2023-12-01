@@ -1,3 +1,9 @@
+/*
+ * Ce fichier est le point d'entrée principal pour l'interface graphique du jeu. Il initialise
+ * la fenêtre de jeu, charger les scènes nécessaires, et gérer les transitions entre les
+ * différentes vues (comme le menu principal, le jeu lui-même, etc.).
+ */
+
 package gui;
 
 import javafx.animation.PauseTransition;
@@ -19,12 +25,16 @@ import model.MazeState;
 import java.io.IOException;
 import java.util.Objects;
 
+// Classe principale de l'application qui étend javafx.application.Application.
+// Cette classe est le point d'entrée pour l'interface utilisateur du jeu.
+
 public class App extends Application {
     // Attributs et champs de la classe
     public static Rectangle2D screen = Screen.getPrimary().getBounds(); // Les dimensions de l'écran du joueur
     private static Stage primaryStage = null;
     Scene menuScene; // La scène du menu
 
+    // La méthode start est appelée automatiquement lorsque l'application démarre.
     @Override
     public void start(Stage primaryStage) {
         App.primaryStage = primaryStage; // Initialisation du stage
@@ -32,6 +42,7 @@ public class App extends Application {
         // Configuration de la fenêtre
         primaryStage.getIcons().clear();
         primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Logo.png")))); 
+        // Initialisation de la fenêtre principale et configuration de ses propriétés.
         primaryStage.setTitle("JUNGLE PACMAN");
         primaryStage.setResizable(false);
 
@@ -50,6 +61,7 @@ public class App extends Application {
         primaryStage.sizeToScene();
         primaryStage.setAlwaysOnTop(true);
         primaryStage.requestFocus();
+        // Affichage de la fenêtre principale.
         primaryStage.show();
 
         // Transition après l'animation de démarrage
@@ -105,6 +117,7 @@ public class App extends Application {
     }
     
 
+    // Point d'entrée principal du programme Java.
     public static void main(String[] args) {
         launch(args);
     }
