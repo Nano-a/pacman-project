@@ -1,7 +1,8 @@
 package gameobjects;
 
 /**
- Représente les différentes entités qui se déplacent sur la carte et stockent les informations de délai avant de quitter le point de spawn.
+ Représente les différentes entités qui se déplacent sur la carte et stockent les informations
+ de délai avant de quitter le point de spawn.
  */
 
 public enum EntityObjects {

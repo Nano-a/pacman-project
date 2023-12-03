@@ -12,6 +12,12 @@ import javafx.scene.input.KeyEvent;
 
 // Cette classe est chargée de gérer les entrées de l'utilisateur pour contrôler Pacman.
 public class PacmanController {
+
+	private final PacMan pacMan;
+
+    	public PacmanController(PacMan pacMan) {
+        	this.pacMan = pacMan;
+    	}
     public void keyPressedHandler(KeyEvent event) {
                 // Définition de la direction de PacMan en fonction de la touche pressée.
         PacMan.INSTANCE.setDirection(

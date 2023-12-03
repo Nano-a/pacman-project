@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 
 import config.MazeConfig;
 import model.MazeState;
+import model.PacMan;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -87,7 +88,7 @@ public class App extends Application {
             try {
                 var root = new Pane();
                 var gameScenes = new Scene(root);
-                var pacmanController = new PacmanController();
+                var pacmanController = new PacmanController(PacMan.INSTANCE);
                 gameScenes.setOnKeyPressed(pacmanController::keyPressedHandler);
                 gameScenes.setOnKeyReleased(pacmanController::keyReleasedHandler);
                 // Utiliser le constructeur de MazeConfig avec le chemin du fichier
