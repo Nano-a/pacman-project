@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="gui.GraphicsUpdaterTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-12-04T15:34:59" hostname="Ajinou-Abderrahman" time="0.042">
-  <properties/>
-  <testcase name="testGraphicsUpdaterImplementation()" classname="gui.GraphicsUpdaterTest" time="0.042"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="config.CellTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2023-12-04T15:34:58" hostname="Ajinou-Abderrahman" time="0.008">
-  <properties/>
-  <testcase name="testCellBuilder()" classname="config.CellTest" time="0.005"/>
-  <testcase name="testFactoryMethods()" classname="config.CellTest" time="0.002"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
