@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="model.PacManTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2023-12-04T22:14:48" hostname="Ajinou-Abderrahman" time="0.005">
+  <properties/>
+  <testcase name="testSingletonInstance()" classname="model.PacManTest" time="0.001"/>
+  <testcase name="testPositionAndDirection()" classname="model.PacManTest" time="0.001"/>
+  <testcase name="testEnergizedState()" classname="model.PacManTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
