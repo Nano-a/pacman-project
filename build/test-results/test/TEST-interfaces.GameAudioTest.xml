@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="interfaces.GameAudioTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2023-12-04T15:34:59" hostname="Ajinou-Abderrahman" time="0.023">
+  <properties/>
+  <testcase name="testSetVolume()" classname="interfaces.GameAudioTest" time="0.017"/>
+  <testcase name="testGetVolume()" classname="interfaces.GameAudioTest" time="0.002"/>
+  <testcase name="testStopAllInstances()" classname="interfaces.GameAudioTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
