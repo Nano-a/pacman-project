@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<!-- FXML (JavaFX Markup Language) is an XML-based declarative markup language used
+in JavaFX for designing user interfaces. It allows you to define the structure of your JavaFX UI
+in a separate file (typically saved with a .fxml extension) rather than creating
+it programmatically in Java code.
+
+How FXML works in JavaFX:
+Declarative UI Definition:
+FXML files contain a hierarchical structure that represents the UI components
+(like buttons, layouts, etc.) and their properties.
+Each element in the FXML corresponds to a JavaFX UI element (e.g., AnchorPane, Button, VBox, etc.).
+Separation of Concerns:
+FXML promotes a separation between UI design and application logic.
+The UI layout and structure are defined in FXML, while the behavior and
+functionality are implemented in Java code.
+FXML Loading:
+In Java code, FXML files are loaded using the FXMLLoader class.
+The FXMLLoader parses the FXML file, creates the corresponding JavaFX objects,
+and builds the UI component hierarchy.
+Controller Integration:
+FXML files can be associated with controller classes written in Java.
+The fx:controller attribute in the FXML file specifies the controller class
+ responsible for handling the UI's behavior.
+Binding and Event Handling:
+FXML supports bindings, allowing properties of UI elements to be linked together.
+Event handling methods can be defined in the controller class and linked to UI
+components using onAction, onMouseClicked, or similar attributes in the FXML file.-->
+
+
+<!-- Root element -->
+<AnchorPane id="background" prefHeight="600.0" prefWidth="870.0" stylesheets="/css/style.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="gui.Menu">
+   <!-- Children of the AnchorPane -->
+   <children>
+      <!-- Vertical Box (VBox) for buttons -->
+      <VBox layoutX="290.0" layoutY="250.0" prefHeight="255.0" prefWidth="300.0">
+         <children>
+            <!-- Button 1: START GAME -->
+
+            <Button id="button-menu"  prefWidth="400.0" onAction="#switchToNewGame" text="START GAME">
+               <!-- Button 1 Margin -->
+               <VBox.margin>
+                  <Insets top="75.0" right="30.0" left="30.0" />
+               </VBox.margin>
+            </Button>
+
+            <!-- Button 2: SETTINGS -->
+            <Button id="button-menu"  prefWidth="400.0" onAction="#switchToSettings" text="SETTINGS">
+               <VBox.margin>
+                  <Insets top="20.0" right="30.0" left="30.0" />
+               </VBox.margin>
+            </Button>
+            <!-- Button 3: EXIT -->
+            <Button id="button-menu"  prefWidth="400.0"  onAction="#exitGame" text="EXIT">
+               <VBox.margin>
+                  <Insets top="20.0" right="30.0" left="30.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+      <!-- BorderPane at the bottom -->
+      <BorderPane layoutY="548.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="875.0" />
+   </children>
+</AnchorPane>
