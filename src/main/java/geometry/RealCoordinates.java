@@ -4,13 +4,22 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+// Définition d'un enregistrement (record) Java nommé RealCoordinates.
+// Ce record contient deux coordonnées de type double, x et y.
 public record RealCoordinates(double x, double y) {
 
+    // Définition de STOP_UNIT, probablement un vecteur nul (aucun mouvement).
+    // Cela pourrait être utilisé pour représenter un état d'arrêt ou d'absence de mouvement.
+    public static final RealCoordinates STOP_UNIT = new RealCoordinates(0, 0);
+
+    // Autres vecteurs unitaires définis comme constantes statiques.
+    // Ces vecteurs pourraient représenter des directions de base dans le jeu.
     public static final RealCoordinates ZERO = new RealCoordinates(0, 0);
     public static final RealCoordinates NORTH_UNIT = new RealCoordinates(0, -1);
-    public static final RealCoordinates EAST_UNIT = new RealCoordinates(1, 0);
     public static final RealCoordinates SOUTH_UNIT = new RealCoordinates(0, 1);
+    public static final RealCoordinates EAST_UNIT = new RealCoordinates(1, 0);
     public static final RealCoordinates WEST_UNIT = new RealCoordinates(-1, 0);
+
 
 
     public RealCoordinates plus(RealCoordinates other) {
@@ -67,5 +76,10 @@ public record RealCoordinates(double x, double y) {
         while (Math.round(rx) >= height)
             ry -= height;
         return new RealCoordinates(rx, ry);
+    }
+
+    public RealCoordinates(double x, double y) {
+        this.x = x;
+        this.y = y;
     }
 }

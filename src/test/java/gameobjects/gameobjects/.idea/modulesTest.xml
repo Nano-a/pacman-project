@@ -1,0 +1,16 @@
+<!--
+    Tester un fichier de configuration de module IntelliJ IDEA, comme celle-ci n'est pas réalisable
+    de la même manière que les tests unitaires pour le code Java. Les tests unitaires sont conçus
+    pour valider la logique métier et le comportement des classes et méthodes dans votre code.
+    En revanche, un fichier de configuration de module n'est pas du code exécutable ; il sert
+    à configurer l'environnement de développement et le processus de compilation.
+
+### Pourquoi le Test N'est Pas Applicable ?
+1. **Nature Statique :** Les fichiers de configuration, comme les fichiers XML de module IntelliJ,
+définissent des paramètres statiques. Ils n'ont pas de comportement ou de logique qui peut être testé
+dynamiquement.
+2. **Environnement de Développement :** Ce fichier est spécifique à IntelliJ IDEA et est utilisé
+par l'IDE pour configurer le projet. Sa "validité" est déterminée par sa capacité à être correctement
+interprétée par l'IDE, plutôt que par des tests automatisés.
+
+-->

@@ -1,3 +1,7 @@
+/*
+ * Il est au cœur de la visualisation du jeu, gérant l'affichage du labyrinthe,
+ * de Pacman, des fantômes, et d'autres éléments du jeu
+ */
 package gui;
 
 import geometry.IntCoordinates;
@@ -9,14 +13,16 @@ import model.MazeState;
 import java.util.ArrayList;
 import java.util.List;
 
+// Cette classe gère l'affichage du jeu, y compris le labyrinthe et les personnages.
 public class GameView {
     // class parameters
-    private final MazeState maze;
+    private final MazeState maze; // État actuel du labyrinthe
     private final Pane gameRoot; // main node of the game
     // private final Label scoreLabel; // Label to display th
 
     private final List<GraphicsUpdater> graphicsUpdaters;
 
+    // Méthode pour ajouter un élément graphique à la vue.
     private void addGraphics(GraphicsUpdater updater) {
         gameRoot.getChildren().add(updater.getNode());
         graphicsUpdaters.add(updater);
@@ -27,7 +33,10 @@ public class GameView {
      * @param root  le nœud racine dans la scène JavaFX dans lequel le jeu sera affiché
      * @param scale le nombre de pixels représentant une unité du labyrinthe
      */
+
+     // Constructeur initialisant les éléments nécessaires pour l'affichage.
     public GameView(MazeState maze, Pane root, double scale) {
+        // Initialisation des usines de graphiques.
         this.maze = maze;
         this.gameRoot = root;
         // Create and configure the score label
@@ -51,6 +60,7 @@ public class GameView {
 
     public void animate() {
         new AnimationTimer() {
+            // Mise à jour de la vue.
             long last = 0;
 
             @Override

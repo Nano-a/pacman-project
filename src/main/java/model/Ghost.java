@@ -2,13 +2,16 @@ package model;
 
 import geometry.RealCoordinates;
 
+// Classe énumération pour les fantômes, implémentant l'interface Critter.
 public enum Ghost implements Critter {
-
-    // TODO: implement a different AI for each ghost, according to the description in Wikipedia's page
+    // Définition des différents types de fantômes.
     BLINKY, INKY, PINKY, CLYDE;
 
+    // Attributs pour la position et la direction du fantôme.
     private RealCoordinates pos;
     private Direction direction = Direction.NONE;
+
+    // Implémentation des méthodes de l'interface Critter.
     @Override
     public RealCoordinates getPos() {
         return pos;

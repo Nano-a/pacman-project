@@ -2,19 +2,20 @@ package model;
 
 import geometry.RealCoordinates;
 
-/**
- * Implements Pac-Man character using singleton pattern. FIXME: check whether singleton is really a good idea.
- */
+// Classe pour représenter Pac-Man, implémentant l'interface Critter.
 public final class PacMan implements Critter {
-    private Direction direction = Direction.NONE;
-    private RealCoordinates pos;
-    private boolean energized;
+    private Direction direction = Direction.NONE; // Direction actuelle de Pac-Man.
+    private RealCoordinates pos; // Position actuelle de Pac-Man.
+    private boolean energized; // Indique si Pac-Man est sous l'effet d'un énergisant.
 
+    // Constructeur privé pour le motif Singleton.
     private PacMan() {
     }
 
+    // Instance unique de Pac-Man (Singleton).
     public static final PacMan INSTANCE = new PacMan();
 
+    // Implémentation des méthodes de l'interface Critter.
     @Override
     public RealCoordinates getPos() {
         return pos;

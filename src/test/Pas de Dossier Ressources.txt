@@ -1,0 +1,25 @@
+Est-ce qu'on ajoute le dossier ressource dans le dossier test aussi ???
+
+
+Réponse:
+Non, vous n'avez généralement pas besoin de copier le dossier resources de src/main vers src/test. Voici pourquoi :
+
+Rôle du Dossier resources :-->
+
+    Pour le Code Source : Dans src/main/resources, vous stockez des ressources utilisées par votre application, comme des fichiers de configuration,
+  des images, des fichiers de données, etc.
+    Accès pendant les Tests : Lorsque vous exécutez des tests, ces ressources sont généralement toujours accessibles. Les frameworks de test comme
+  JUnit utilisent le même chemin de classe que votre application principale, ce qui signifie qu'ils peuvent accéder aux ressources de src/main/resources.
+
+Utilisation des Ressources dans les Tests:-->
+
+    Tests Nécessitant des Ressources : Si vos tests ont besoin d'accéder à des fichiers ou à d'autres ressources, ils peuvent généralement le faire
+  directement à partir de src/main/resources.
+    Ressources Spécifiques aux Tests : Si vous avez des ressources qui sont uniquement utilisées pour les tests (comme des fichiers de données de
+  test), vous pouvez les placer dans src/test/resources. Ce dossier est spécifique aux ressources utilisées pendant les tests et n'est pas inclus
+  dans le chemin de classe de l'application principale.
+
+Résumé
+
+    Pas de Copie Nécessaire : Ne copiez pas src/main/resources dans src/test. Utilisez src/main/resources pour les ressources nécessaires à la fois
+  pour l'exécution normale de l'application et pour les tests, et src/test/resources pour les ressources spécifiquement destinées aux tests.
