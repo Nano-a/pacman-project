@@ -1,11 +1,12 @@
 plugins {
     id 'java'
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.1.0'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+    id 'edu.sc.seis.launch4j' version '2.5.4'
 }
 
 configurations {
-  testCompile
+    testCompile
 }
 
 group 'fr.u-paris.informatique.cproj'
@@ -16,19 +17,12 @@ repositories {
 }
 
 dependencies {
-    // Vos dépendances existantes
     testCompile group: 'junit', name: 'junit', version: '5.10.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
-
-    // Ajout de Mockito
-    testImplementation 'org.mockito:mockito-core:4.0.0' // Assurez-vous d'utiliser la dernière version
-    testImplementation 'org.mockito:mockito-junit-jupiter:4.0.0'
-
-    // Ajout de TestFX pour les tests d'interface utilisateur JavaFX
-    testImplementation 'org.testfx:testfx-core:4.0.16-alpha'
-    testImplementation 'org.testfx:testfx-junit5:4.0.16-alpha'
-
+    implementation 'org.openjfx:javafx-controls:21'
+    implementation 'org.openjfx:javafx-fxml:21'
+    implementation 'org.openjfx:javafx-media:21'
 }
 
 test {
@@ -36,22 +30,25 @@ test {
 }
 
 javafx {
-    version = "17"
-    modules = [ 'javafx.controls' ]
+    version = "21"
+    modules = [ 'javafx.controls', 'javafx.fxml','javafx.media','javafx.base']  // Rajout du 'javafx.fxml' et javafx.media pour se servir du SceneBuilder
 }
 
 sourceSets {
     main {
         java {
-            srcDirs = ['src/main/java']
+            srcDirs= ["src/main/java"]
         }
-    }
-    test {
-        java {
-            srcDirs = ['src/test/java']
+        resources {
+            srcDirs= ["src/main/resources"]
         }
     }
 }
 
+launch4j {
+    outfile = "pacman.exe"
+    mainClassName = 'gui.Launcher'
+    icon = "${projectDir}/src/main/resources/Logo.png"
+}
 
 mainClassName = 'gui.App'
