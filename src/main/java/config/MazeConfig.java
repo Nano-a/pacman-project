@@ -1,142 +1,162 @@
 package config;
 
 import geometry.IntCoordinates;
+import enums.Cell;
+import enums.Direction;
 
-import static config.Cell.Content.DOT;
-import static config.Cell.*;
-import static config.Cell.Content.NOTHING;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class MazeConfig {
 
-    /*Code precedent qui a été retiré
-     * public MazeConfig(Cell[][] grid, IntCoordinates pacManPos, IntCoordinates blinkyPos, IntCoordinates pinkyPos, IntCoordinates inkyPos, IntCoordinates clydePos) {
-        this.grid = new Cell[grid.length][grid[0].length];
-        for (int i = 0; i < getHeight(); i++) {
-            if (getWidth() >= 0) System.arraycopy(grid[i], 0, this.grid[i], 0, getHeight());
+    private int rows; // le nombre de lignes dans le fichier texte du labyrinthe
+    private int cols; // le nombre de colonnes dans le fichier texte du labyrinthe
+    private int nbDots = 0 ; // le nombre de bananes dans le labyrinthe
+    public Cell[][] grid; // la grille de cellules du labyrinthe ; le maze
+    public IntCoordinates pacManPos;
+    public IntCoordinates lionPos;
+    public IntCoordinates gorillaPos;
+    public IntCoordinates snakePos;
+    public IntCoordinates tigerPos;
+    public IntCoordinates pacmanDirection;
+    public IntCoordinates lionDirection;
+    public IntCoordinates gorillaDirection;
+    public IntCoordinates snakeDirection;
+    public IntCoordinates tigerDirection;
+
+    // getters et pas besoin de setters,on ne va pas écrire sur les fichiers
+    public int getRows() {return rows;}
+    public void setRows(int rows) {this.rows = rows;}
+    public int getCols() {return cols;}
+    public void setCols(int cols) {this.cols = cols;}
+    public int getNbDots() {return nbDots;}
+    public void setNbDots(int nbDots) {this.nbDots = nbDots;}
+    public IntCoordinates getPacManPos() {
+        return pacManPos;
+    }
+    public IntCoordinates getLionPos() {return lionPos;}
+    public IntCoordinates getGorillaPos() {
+        return gorillaPos;
+    }
+    public IntCoordinates getSnakePos() {
+        return snakePos;
+    }
+    public IntCoordinates getTigerPos() {
+        return tigerPos;
+    }
+
+   // no constructor no need
+    public MazeConfig ( String file ) {
+        loadMazeFromFile(file);
+    }
+
+    public void numberOfRowsCol ( File file ){
+        // cette méthode permet de calculer le nombre de lignes et de colonnes du fichier texte du labyrinthe
+        // le principe des niveaux est on initialise le fichier du niveau 1 puis 2 puis 3 , sous réserve de collectionner tous les dots du jeu pour passer à un autre level
+        // c'est géré dans le model
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
-        this.pacManPos = pacManPos;
-        this.blinkyPos = blinkyPos;
-        this.inkyPos = inkyPos;
-        this.pinkyPos = pinkyPos;
-        this.clydePos = clydePos;
-    }
-     */
-
-    // Déclaration des variables d'instance pour le labyrinthe et les positions des personnages.
-    private final Cell[][] grid;
-    private final IntCoordinates pacManPos, blinkyPos, pinkyPos, inkyPos, clydePos;
-    private List<IntCoordinates> ghostPositions; // Déclaration de ghostPositions
-
-
-    // Méthodes pour obtenir les positions de Pac-Man et des fantômes.
-    public IntCoordinates getPacManPos() { return pacManPos; }
-    public IntCoordinates getBlinkyPos() { return blinkyPos; }
-    public IntCoordinates getPinkyPos() { return pinkyPos; }
-    public IntCoordinates getInkyPos() { return inkyPos; }
-    public IntCoordinates getClydePos() { return clydePos; }
-
-    // Méthodes pour obtenir la largeur et la hauteur du labyrinthe.
-    public int getWidth() { return grid[0].length; }
-    public int getHeight() { return grid.length; }
-
-
-    // Méthode pour obtenir une cellule spécifique à partir de ses coordonnées.
-    public Cell getCell(IntCoordinates pos) {
-        return grid[Math.floorMod(pos.y(), getHeight())][Math.floorMod(pos.x(), getWidth())];
-    }
-
-    // simple example with a square shape
-    // TODO: mazes should be loaded from a text file
-    /*
-     * public static MazeConfig makeExample1() {
-        return new MazeConfig(new Cell[][]{
-                {nTee(DOT),    hPipe(DOT),     hPipe(DOT),     hPipe(DOT),     hPipe(DOT),     nTee(DOT)},
-                {vPipe(DOT),    seVee(NOTHING), nTee(NOTHING),  nTee(NOTHING),  swVee(NOTHING), vPipe(DOT)},
-                {vPipe(DOT),     wTee(NOTHING),  open(NOTHING),  open(NOTHING),  eTee(NOTHING),  vPipe(DOT)},
-                {vPipe(DOT),    wTee(NOTHING),  open(NOTHING),  open(NOTHING),  eTee(NOTHING),  vPipe(DOT)},
-                {vPipe(DOT),    neVee(NOTHING), sTee(NOTHING),  sTee(NOTHING),   nwVee(NOTHING), vPipe(DOT)},
-                {neVee(DOT),    hPipe(DOT),     hPipe(DOT),     hPipe(DOT),     hPipe(DOT),     nwVee(DOT)}
-        },
-                new IntCoordinates(3, 0),
-                new IntCoordinates(0, 3),
-                new IntCoordinates(3, 5),
-                new IntCoordinates(5, 5),
-                new IntCoordinates(5, 1)
-        );
-    }
-     */
-    public MazeConfig(String resourcePath) throws IOException {
-        // Chargement d'une ressource (comme un fichier de configuration pour le labyrinthe) à partir du chemin donné.
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(resourcePath);
-    
-        // Vérification si la ressource est trouvée. Si non, une exception est lancée.
-        if (inputStream == null) {
-            throw new IOException("Resource not found: " + resourcePath);
+        // on calcule le nombre de lignes et de colonnes du fichier texte du labyrinthe
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            Scanner lineScanner = new Scanner(line);
+            while (lineScanner.hasNext()) {
+                lineScanner.next();
+                cols++;
+            }
+            rows++;
         }
-    
-        // Utilisation d'un BufferedReader pour lire le contenu de la ressource.
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-            // Lecture de toutes les lignes de la ressource et stockage dans une liste.
-            List<String> lines = reader.lines().collect(Collectors.toList());
-    
-            // Initialisation du tableau de cellules 'grid' selon la taille des lignes lues.
-            grid = new Cell[lines.size()][lines.get(0).length()];
-            ghostPositions = new ArrayList<>(); // Initialisation de la liste pour les positions des fantômes.
-            IntCoordinates tempPacManPos = null; // Variable temporaire pour stocker la position de Pac-Man.
-    
-            // Parcours de chaque caractère dans chaque ligne pour construire le labyrinthe.
-            for (int y = 0; y < lines.size(); y++) {
-                for (int x = 0; x < lines.get(y).length(); x++) {
-                    char ch = lines.get(y).charAt(x); // Lecture du caractère actuel.
-    
-                    // Utilisation d'un switch pour déterminer l'action en fonction du caractère lu.
-                    switch (ch) {
-                        case '1':
-                            grid[y][x] = Cell.wall(); // Placer un mur.
-                            break;
-                        case '2':
-                            grid[y][x] = Cell.dot(); // Placer un point.
-                            break;
-                        case '3':
-                            grid[y][x] = Cell.energizer(); // Placer un énergisant.
-                            break;
-                        case '4':
-                            tempPacManPos = new IntCoordinates(x, y); // Stockage de la position de Pac-Man.
-                            grid[y][x] = Cell.empty(); // Marquer la cellule comme vide.
-                            break;
-                        case '5':
-                            ghostPositions.add(new IntCoordinates(x, y)); // Ajouter la position du fantôme.
-                            grid[y][x] = Cell.empty(); // Marquer la cellule comme vide.
-                            break;
-                        default:
-                            grid[y][x] = Cell.empty(); // Par défaut, la cellule est vide.
-                            break;
-                    }
+        cols = cols/rows; // on a le nombre de colonnes par ligne
+    }
+
+    public void loadMazeFromFile(String fileName) {
+        File file = new File(fileName);
+        numberOfRowsCol(file); // on calcule le nombre de lignes et de colonnes du fichier texte du labyrinthe
+        Scanner scanner2 = null;
+        try {
+            scanner2 = new Scanner(file); // on réinitialise le scanner pour lire le fichier depuis le début
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        grid = new Cell[rows][cols]; // on crée la matrice de cellules ; on a 9 types de cellules ;
+        // une grille de cellules de la classe Cell qui est un enum et chaque Cell correspond en vue à une image
+        // et non pas à un type Rectangle de Javafx comme auparavant avec des walls
+        int row = 0;
+        int pacManRow = 0;int pacManColumn = 0;
+        int lionRow = 0;int lionColumn = 0;
+        int gorillaRow = 0;int gorillaColumn = 0;
+        int snakeRow = 0;int snakeColumn = 0;
+        int tigerRow = 0;int tigerColumn = 0;
+        while(scanner2.hasNextLine()){
+            int column = 0;
+            String line= scanner2.nextLine();
+            Scanner lineScanner = new Scanner(line);
+            while (lineScanner.hasNext()){
+                String charactere  = lineScanner.next();
+                Cell content;
+                if (charactere.equals("T")){
+                    content = Cell.TREE;
                 }
+                else if (charactere.equals("B")){ // banana
+                    content = Cell.DOT;
+                    nbDots++; // on compte le nombre de bananes
+                }
+                else if (charactere.equals("L")){ // Load of banans as an energizer
+                    content = Cell.ENERGIZER;
+                    nbDots++;
+                }
+                else if (charactere.equals("1")){
+                    content = Cell.LION; // la position initiale du lion dans le labyrinthe
+                    lionRow = row;
+                    lionColumn = column;
+                }
+                else if (charactere.equals("2")){
+                    content = Cell.GORILLA;
+                    gorillaRow = row;
+                    gorillaColumn = column;
+                } else if (charactere.equals("3")){
+                    content = Cell.SNAKE;
+                    snakeRow = row;
+                    snakeColumn = column;
+                } else if (charactere.equals("4")){
+                    content = Cell.TIGER;
+                    tigerRow = row;
+                    tigerColumn = column;
+                } else if (charactere.equals("P")){
+                    content = Cell.PACMAN; // la position initiale de PacMan dans le labyrinthe
+                    pacManRow = row;
+                    pacManColumn = column;
+                }
+                else //(value.equals("N")) empty cell
+                {
+                    content = Cell.NOTHING;
+                }
+                grid[row][column] = content; //on remplie la grille
+                column++; //prochaine colonne
             }
-    
-            // Vérification si la position de Pac-Man a été trouvée.
-            if (tempPacManPos == null) {
-                throw new IOException("Pac-Man position not found in the map.");
-            }
-            this.pacManPos = tempPacManPos; // Affectation de la position de Pac-Man à la variable d'instance.
+            row++; //prochaine ligne
         }
-    
-    
-        // Initialisation des positions (exemples fictifs)
-        this.blinkyPos = new IntCoordinates(1, 2); // Position fictive de Blinky
-        this.pinkyPos = new IntCoordinates(1, 3); // Position fictive de Pinky
-        this.inkyPos = new IntCoordinates(1, 4); // Position fictive de Inky
-        this.clydePos = new IntCoordinates(1, 5); // Position fictive de Clyde
+        // on initilise les positions des entités selon le row et column dans fichier txt
+        pacManPos = new IntCoordinates(pacManRow, pacManColumn);
+        pacmanDirection = new IntCoordinates(0,0);
+        lionPos = new IntCoordinates(lionRow,lionColumn);
+        lionDirection = new IntCoordinates(-1, 0);
+        gorillaPos = new IntCoordinates(gorillaRow,gorillaColumn);
+        gorillaDirection = new IntCoordinates(-1, 0);
+        snakePos = new IntCoordinates(snakeRow,snakeColumn);
+        snakeDirection = new IntCoordinates(-1, 0);
+        tigerPos = new IntCoordinates(tigerRow,tigerColumn);
+        tigerDirection = new IntCoordinates(-1, 0);
     }
+
+    public Cell getCell(int row, int column) {
+        assert row >= 0 && row < this.grid.length && column >= 0 && column < this.grid[0].length;
+        return this.grid[row][column];
+    }
+
 }
