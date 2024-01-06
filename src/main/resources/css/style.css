@@ -1,39 +1,104 @@
-@font-face {
-	-fx-font-family: 'PixelArt';
-	src: url('fonts/PixelArt.ttf') format('ttf');
-}
 
-
-#button-menu  {
+#menuButton  {
     -fx-background-color: linear-gradient(#124f1a, #4eea38);
     -fx-background-insets: 0,1,2,3;
     -fx-background-radius: 35,35,35,35;
     -fx-padding: 12 30 12 30;
-    -fx-font-family: 'PixelArt';
+    -fx-font-family: 'Avenir Next Condensed' ;
     -fx-text-fill: white;
     -fx-font-size: 16px;
     -fx-border-radius: 3,2,2,3;
 }
 
-#button-menu {
-    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.8) , 0, 0.0 , 0 , 1);
-}
 
-#button-menu:hover {
+#menuButton:hover {
   	-fx-effect: dropshadow(three-pass-box, rgba(30,182,136,1), 25, 0, 0, 0);
     -fx-font-weight: bold;
     -fx-cursor: hand;
 }
 
-#button-menu:pressed{
+#menuButton:pressed{
     -fx-scale-y: 0.95;
     -fx-scale-x: 0.95;
 }
+
+#difficulty-selected {
+    -fx-background-color: linear-gradient(#084c72, #38a5e8);
+    -fx-effect: dropshadow(three-pass-box, rgb(124, 183, 23), 5, 0, 0, 0);
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 35,35,35,35;
+    -fx-padding: 12 30 12 30;
+    -fx-font-family: 'Avenir Next Condensed';
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-border-radius: 3,2,2,3;
+}
+
+#soundOn {
+    -fx-background-color: linear-gradient(#11998e, #38ef7d);
+    -fx-effect: dropshadow(three-pass-box, rgba(30,182,136,1), 5, 0, 0, 0);
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 35,35,35,35;
+    -fx-padding: 12 30 12 30;
+    -fx-font-family: 'Avenir Next Condensed' ;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-border-radius: 3,2,2,3;
+}
+
+#soundOff {
+    -fx-background-color: linear-gradient(#cb2d3e, #ef473a);
+    -fx-effect: dropshadow(three-pass-box, rgba(216,54,61,1), 5, 0, 0, 0);
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 35,35,35,35;
+    -fx-padding: 12 30 12 30;
+    -fx-font-family: 'Avenir Next Condensed' ;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-border-radius: 3,2,2,3;
+}
+
+/* Les backgrounds Images */
 
 #background {
 	-fx-background-image: url("../menu/Menu.gif");
 	-fx-background-repeat: stretch;   
 	-fx-background-position: center center;
+}
+
+#Back {
+    -fx-background-image: url("../Background.png");
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+}
+
+#PauseBackground {
+    -fx-background-image: url("../PauseBackground.gif");
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+}
+
+#BackgroundStory{
+    -fx-background-image: url("../StoryPage.gif");
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+}
+
+#BackgroundStoryFR{
+    -fx-background-image: url("../StoryPageFR.gif");
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+}
+
+#WinBackground{
+    -fx-background-image: url("../WinBackground.gif");
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+}
+#LoseBackground{
+    -fx-background-image: url("../LoseBackground.gif");
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
 }
 
 
