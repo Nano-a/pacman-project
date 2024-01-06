@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.layout.*?>
+
+<AnchorPane  fx:id="backgroundStory" stylesheets="/css/style.css"   xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="gui.StoryPageController"
+            prefHeight="600.0" prefWidth="875.0">
+<!-- juste une image en Background donc c'est géré en CSS -->
+</AnchorPane>
