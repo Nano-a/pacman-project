@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<AnchorPane id="LoseBackground" stylesheets="/css/style.css"  prefHeight="600.0" prefWidth="870.0"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="gui.LosePageController">
+
+     <children>
+         <VBox layoutX="290.0" layoutY="250.0" prefHeight="255.0" prefWidth="300.0" >
+                <children>
+                    <!-- Boutton refaire le jeu -->
+                    <Button id="menuButton" fx:id="Restart" onAction="#restartGame" prefWidth="400.0" text="RESTART">
+                        <VBox.margin>
+                            <Insets top="70.0" right="30.0" left="30.0" />
+                        </VBox.margin>
+                    </Button>
+                    <!-- Menu -->
+                    <Button id="menuButton" fx:id="Menu" onAction="#backToMenu"  prefWidth="400.0" text="MENU">
+                        <VBox.margin>
+                            <Insets top="20.0" right="30.0" left="30.0" />
+                        </VBox.margin>
+                    </Button>
+                    <!-- Quitter le jeu -->
+                    <Button id="menuButton" fx:id="Quit" onAction="#quitGame" prefWidth="400.0" text="QUIT">
+                        <VBox.margin>
+                            <Insets top="20.0" right="30.0" left="30.0" />
+                        </VBox.margin>
+                    </Button>
+                </children>
+            </VBox>
+        </children>
+</AnchorPane>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane id="background" prefHeight="600.0" prefWidth="870.0" stylesheets="/css/style.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="gui.NewGamePageController">
+   <children>
+      <VBox layoutX="330.0" layoutY="250.0" prefHeight="255.0" prefWidth="300.0">
+         <children>
+
+            <Button id="menuButton" fx:id="Start"  onAction="#startGame" prefWidth="220.0" text="Start">
+               <VBox.margin>
+                  <Insets top="70.0" />
+               </VBox.margin>
+            </Button>
+
+            <HBox>
+               <Button id="menuButton" fx:id="easy"  onAction="#setEasy" prefWidth="250.0" text="EASY">
+                  <HBox.margin>
+                     <Insets top="50.0" left="-130.0" right="50.0"  />
+                  </HBox.margin>
+               </Button>
+
+            <Button id="menuButton" fx:id="medium"  onAction="#setMedium" prefWidth="250.0" text="NORMAL">
+               <HBox.margin>
+                  <Insets top="50.0" right="50.0" />
+               </HBox.margin>
+            </Button>
+
+            <Button id="menuButton" fx:id="hard"  onAction="#setHard" prefWidth="250.0" text="FAST">
+               <HBox.margin>
+                  <Insets top="50.0" right="-50.0"  />
+               </HBox.margin>
+            </Button>
+            </HBox>
+
+
+            <Button id="menuButton"  fx:id="Return" onAction="#switchToMenu" prefWidth="220.0" text="RETURN">
+               <VBox.margin>
+                  <Insets top="50.0"  />
+               </VBox.margin>
+            </Button>
+
+
+
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
