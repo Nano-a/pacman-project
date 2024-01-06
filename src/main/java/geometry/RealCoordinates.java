@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
+
+// Non utilisée dans l'appli ; gardé pour que ca compile
 public record RealCoordinates(double x, double y) {
 
     public static final RealCoordinates ZERO = new RealCoordinates(0, 0);
