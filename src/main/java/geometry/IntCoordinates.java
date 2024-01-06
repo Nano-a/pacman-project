@@ -1,34 +1,77 @@
 package geometry;
 
-// Définition d'un enregistrement (record) Java nommé IntCoordinates.
-// Un enregistrement est une manière concise de créer une classe immuable.
-public record IntCoordinates(int x, int y) {
+import java.util.Objects;
 
-    // Méthode pour convertir les coordonnées entières en coordonnées réelles.
-    // Prend en paramètre un double 'scale' qui est utilisé pour la conversion.
-    public RealCoordinates toRealCoordinates(double scale) {
-        // Crée et retourne un nouvel objet RealCoordinates en multipliant les
-        // coordonnées x et y par 'scale'.
-        return new RealCoordinates(x * scale, y * scale);
-    }
+/**
+ * Pour les coordonnées entières, on utilise la classe IntCoordinates ; pour pacman et les animaux
+ * au lieu de RealCoordinates
+ */
 
-    // Constructeur explicite pour IntCoordinates.
-    // Il est optionnel dans les enregistrements, car un constructeur par défaut est généré automatiquement.
-    public IntCoordinates(int x, int y) {
-        // Initialise les champs x et y avec les valeurs fournies.
-        this.x = x;
-        this.y = y;
-    }
+public class IntCoordinates {
 
-    // Méthode pour obtenir la valeur de x.
-    // Les méthodes d'accès sont automatiquement générées dans un enregistrement, mais peuvent être redéfinies.
+    private int x ;
+    private int y ;
+
+    // Obtient la coordonnée x
     public int getX() {
         return x;
     }
 
-    // Méthode pour obtenir la valeur de y.
-    // Similaire à getX(), permet d'accéder à la valeur de y.
     public int getY() {
         return y;
     }
+
+    public int x() {
+        return x;
+    }
+
+    public int y() {
+        return y;
+    }
+    
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    // Constructeur initialisant les coordonnées x et y
+    public IntCoordinates(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    // Ajoute les coordonnées d'un autre point à ce point
+    public IntCoordinates add(IntCoordinates point) {
+
+        return add(point.getX(), point.getY());
+    }
+
+    // Ajoute les coordonnées spécifiées à ce point
+    public IntCoordinates add(int x, int y) {
+        return new IntCoordinates(
+                getX() + x,
+                getY() + y);
+    }
+
+    // Vérifie l'égalité entre ce point et un autre objet
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj instanceof IntCoordinates) {
+            IntCoordinates other = (IntCoordinates) obj;
+            return getX() == other.getX() && getY() == other.getY();
+        } else return false;
+    }
+
+    // Non utilisé dans notre application
+    public RealCoordinates toRealCoordinates(double scale)
+    {
+        return new RealCoordinates(x * scale, y * scale);
+    }
+
+
+
 }
