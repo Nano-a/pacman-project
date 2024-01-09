@@ -489,7 +489,7 @@ public final class MazeState {
                     gameOver = true;
                 }
             }
-        }
+        } }
      
     public Direction intToDirection(int x){
         // convertir un entier en direction
