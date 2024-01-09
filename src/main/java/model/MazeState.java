@@ -167,6 +167,29 @@ public final class MazeState {
         }
     }
     
+    /**  @param direction
+@Description : change la position de pacman selon la direction qu'on récupère dans le controller avec le clavier
+@return*/
+
+    
+    public IntCoordinates changePos(Direction direction){
+        if(direction == Direction.WEST){
+            // y est décrémenté
+            return new IntCoordinates(0,-1);
+        }
+        else if(direction == Direction.EAST){
+            return new IntCoordinates(0,1);
+        }
+        else if(direction == Direction.NORTH){
+            return new IntCoordinates(-1,0);
+        }
+        else if(direction == Direction.SOUTH){
+            return new IntCoordinates(1,0);
+        }
+        else{
+            return new IntCoordinates(0,0);
+        }
+    }
     
     //TODO : Ajouter le 3ème et le 4ème animal avec une IA différente de celle du lion et du gorille
     public void moveGhosts() {
