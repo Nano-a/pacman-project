@@ -115,6 +115,142 @@ public final class MazeState {
     public static boolean isYouWon() {
         return youWon;
     }
+    
+    
+    
+    
+    //TODO : Ajouter le 3ème et le 4ème animal avec une IA différente de celle du lion et du gorille
+    public void moveGhosts() {
+        IntCoordinates[] ghost1Data = moveAGhost(config.lionDirection, config.lionPos);
+        IntCoordinates[] ghost2Data = moveAGhost(config.gorillaDirection,config.gorillaPos);
+        config.lionDirection = ghost1Data[0];
+        config.lionPos = ghost1Data[1];
+        config.gorillaDirection = ghost2Data[0];
+        config.gorillaPos = ghost2Data[1];
+
+    }
+
+    public IntCoordinates[] moveAGhost(IntCoordinates dir, IntCoordinates pos){
+        Random generator = new Random(); //pour générer des directions aléatoires
+        // Si les animaux sont en mode normal , et sils sont dans la meme ligne ou colonne que Pacman
+        // ils le poursuivent jusqu'a renocntrer un mur et ils changent de direction
+        // vers une direction random
+
+        if (!ghostEatingMode) {
+            // si meme ligne que le Pacman
+            if (pos.getY() == config.pacManPos.getY()) {
+                if (pos.getX() > config.pacManPos.getX()) {
+                    dir = changePos(Direction.NORTH);
+                } else {
+                    dir = changePos(Direction.SOUTH);
+                }
+
+                IntCoordinates potentialPos = pos.add(dir);
+                // animaux qui traversent le labyrinthe
+                potentialPos = outOfGrid(potentialPos);
+
+                //la on genere une direction random pour changer de direction jusqu'a ce que l'animal ne rencontre pas un mur
+                while (config.grid[(int) potentialPos.getX()][(int) potentialPos.getY()] == Cell.TREE) {
+                    int randomNum = generator.nextInt(4);
+                    Direction direction = intToDirection(randomNum);
+                    dir = changePos(direction);
+                    potentialPos = pos.add(dir);
+                }
+                pos = potentialPos;
+            }
+            // meme colonne
+            else if (pos.getX() == config.pacManPos.getX()) {
+                if (pos.getY() > config.pacManPos.getY()) {
+
+
+                    dir = changePos(Direction.WEST);
+                } else {
+                    dir = changePos(Direction.EAST);
+                }
+                IntCoordinates potentialPos = pos.add(dir);
+                potentialPos = outOfGrid(potentialPos);
+
+                while (config.grid[(int) potentialPos.getX()][(int) potentialPos.getY()] == Cell.TREE) {
+                    int randomNum = generator.nextInt(4);
+                    Direction direction = intToDirection(randomNum);
+                    dir = changePos(direction);
+                    potentialPos = pos.add(dir);
+                }
+                pos = potentialPos;
+            }
+            // Random
+            else{
+                IntCoordinates potentialPos = pos.add(dir);
+                potentialPos = outOfGrid(potentialPos);
+                while(config.grid[(int) potentialPos.getX()][(int) potentialPos.getY()] == Cell.TREE){
+                    int randomNum = generator.nextInt( 4);
+                    Direction direction = intToDirection(randomNum);
+                    dir = changePos(direction);
+                    potentialPos = pos.add(dir);
+                }
+                pos = potentialPos;
+            }
+        }
+        // dans l'autre mode , les animaux fuient Pacman
+        // on part à la direction opposé de Pacman jusqu'a rencontrer un mur
+        // sinon random
+
+        if (ghostEatingMode) {
+            if (pos.getY() == config.pacManPos.getY()) {
+                if (pos.getX() > config.pacManPos.getX()) {
+                    dir = changePos(Direction.SOUTH);
+                } else {
+                    dir = changePos(Direction.NORTH);
+                }
+
+                IntCoordinates potentialPos = pos.add(dir);
+                // hors labyrinthe
+                potentialPos = outOfGrid(potentialPos);
+
+
+                while (config.grid[(int) potentialPos.getX()][(int) potentialPos.getY()] == Cell.TREE) {
+                    int randomNum = generator.nextInt(4);
+                    Direction direction = intToDirection(randomNum);
+                    dir = changePos(direction);
+                    potentialPos = pos.add(dir);
+                }
+                pos = potentialPos;
+
+            } else if (pos.getX() == config.pacManPos.getX()) {
+                if (pos.getY() > config.pacManPos.getY()) {
+                    dir = changePos(Direction.EAST);
+                } else {
+                    dir = changePos(Direction.WEST);
+                }
+                IntCoordinates potentialPos = pos.add(dir);
+                potentialPos = outOfGrid(potentialPos);
+                // random
+                while (config.grid[(int) potentialPos.getX()][(int) potentialPos.getY()] == Cell.TREE) {
+                    int randomNum = generator.nextInt(4);
+                    Direction direction = intToDirection(randomNum);
+                    dir = changePos(direction);
+                    potentialPos = pos.add(dir);
+                }
+                pos = potentialPos;
+            }
+            else{
+                // random
+                IntCoordinates potentialPos = pos.add(dir);
+                potentialPos = outOfGrid(potentialPos);
+                while(config.grid[(int) potentialPos.getX()][(int) potentialPos.getY()] == Cell.TREE){
+                    int randomNum = generator.nextInt( 4);
+                    Direction direction = intToDirection(randomNum);
+                    dir = changePos(direction);
+                    potentialPos = pos.add(dir);
+                }
+                pos = potentialPos;
+            }
+        }
+        IntCoordinates[] data = {dir, pos};
+        return data;
+
+    }
+    
 
 
     public void resetPositions() {
