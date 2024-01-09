@@ -80,5 +80,44 @@ public class Controller extends CommonController implements EventHandler<KeyEven
     }
     
     
+    public void pause() {
+        this.timer.cancel();
+        this.paused = true;
+    }
+
+    public void resumeGame() {
+        if (paused) {
+            startTimer(); // Relancer le timer
+            paused = false;
+        }
+    }
+
+
+    public double getBoardWidth() {
+        return GameView.CELL_WIDTH * this.gameView.getColumnCount();
+    }
+
+    public double getBoardHeight() {
+        return GameView.CELL_WIDTH * this.gameView.getRowCount();
+    }
+
+    public static void setGhostEatingModeCounter() {
+
+        SoundController.sound("ghostSprut");
+        ghostEatingModeCounter = 25;
+    }
+
+    public static int getGhostEatingModeCounter() {
+        return ghostEatingModeCounter;
+    }
+
+    public static String getLevelFile(int x) {
+        return levelFiles[x];
+    }
+
+    public boolean getPaused() {
+        return paused;
+    }
+    
 
 }
