@@ -79,6 +79,81 @@ public class Controller extends CommonController implements EventHandler<KeyEven
         this.timer.schedule(timerTask, 0, frameTimeInMilliseconds);
     }
     
+      private void update(Direction direction) {
+        this.model.step(direction); // le model du jeu est mis à jour
+        this.gameView.animate(model); // animer la vue
+        if (this.model.getLives() == 3) {
+            try {
+                this.livesImage.setVisible(true);
+                Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/ThreeHearts.gif")));
+                this.livesImage.setImage(image);
+            } catch (NullPointerException e) {
+                System.out.println("Erreur lors du chargement de l'image : " + e.getMessage());
+            }
+        }
+        if (this.model.getLives() == 2) {
+            try {
+                this.livesImage.setVisible(true);
+                Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/twoHearts.gif")));
+                this.livesImage.setImage(image);
+
+            } catch (NullPointerException e) {
+                System.out.println("Erreur lors du chargement de l'image : " + e.getMessage());
+            }
+        }
+        if (this.model.getLives() == 1) {
+            try {
+                this.livesImage.setVisible(true);
+                Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/oneHeart.gif")));
+                this.livesImage.setImage(image);
+
+            } catch (NullPointerException e) {
+                System.out.println("Erreur lors du chargement de l'image : " + e.getMessage());
+            }
+        }
+        if (this.model.getLives() == 0) {
+            try {
+                this.livesImage.setVisible(false);
+
+            } catch (NullPointerException e) {
+                System.out.println("Erreur lors du chargement de l'image : " + e.getMessage());
+            }
+        }
+
+        if (SettingsLanguageController.isFrench) {
+            this.score.setText(String.format("Score: %d", this.model.getScore()));
+            this.level.setText(String.format("Niveau: %d", this.model.getLevel()));
+        } else {
+            this.score.setText(String.format("Score: %d", this.model.getScore()));
+            this.level.setText(String.format("Level: %d", this.model.getLevel()));
+        }
+
+        if (MazeState.isGameOver()) {
+            this.timer.cancel();
+            this.paused = true;
+            SoundController.sound("fail");
+            SoundController.musique("JungleTheme");
+            manager.switchScene(FxmlFiles.LOSE);
+        }
+        if (MazeState.isYouWon()) {
+            this.timer.cancel();
+            this.paused = true;
+            SoundController.musique("JungleTheme");
+            manager.switchScene(FxmlFiles.WIN);
+        }
+        if (MazeState.isPaused()) {
+            this.timer.cancel();
+            this.paused = true;
+            manager.switchScene(FxmlFiles.PAUSE);
+        }
+        
+        if (MazeState.isGhostEatingMode()) {
+            ghostEatingModeCounter--;
+        }
+        if (ghostEatingModeCounter == 0 && MazeState.isGhostEatingMode()) {
+            MazeState.setGhostEatingMode(false);
+        }
+    }
     
     @Override
     public void handle(KeyEvent keyEvent) {
