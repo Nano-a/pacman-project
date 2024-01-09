@@ -116,7 +116,56 @@ public final class MazeState {
         return youWon;
     }
     
-    
+    public void movePacman(Direction direction) {
+        // Calcul de la prochaine direction souhaitée pour Pac-Man
+        IntCoordinates pacmanNextDirection = changePos(direction);
+        // Calcul de la prochaine position de Pac-Man en fonction de la direction
+        IntCoordinates pacmanNextPos = config.pacManPos.add(pacmanNextDirection);
+
+        // Si Pac-Man sort de l'écran, il réapparaît de l'autre côté (effet de rebond)
+        pacmanNextPos = outOfGrid(pacmanNextPos);
+
+
+        if (direction.equals(lastDirection)) {
+            // On arrete PacMan si il rencontre un mur
+            if (config.grid[(int) pacmanNextPos.getX()][(int) pacmanNextPos.getY()] == Cell.TREE){
+                config.pacmanDirection = changePos(Direction.NONE);
+                lastDirection = Direction.NONE ;
+            }
+            else {
+                config.pacmanDirection = pacmanNextDirection;
+                config.pacManPos = pacmanNextPos;
+            }
+        }
+
+
+        // Si la dernière direction est différente de la direction actuelle, vérifie les murs avant de changer de directionoing in a new direction
+        else {
+            if (config.grid[(int) pacmanNextPos.getX()][(int) pacmanNextPos.getY()] == Cell.TREE){
+                pacmanNextDirection = changePos(lastDirection);
+                pacmanNextPos = config.pacManPos.add(pacmanNextDirection);
+
+                // si avec la direction on rencontre un mur on arrete PacMan
+                if (config.grid[(int) pacmanNextPos.getX()][(int) pacmanNextPos.getY()] == Cell.TREE){
+                    config.pacmanDirection = changePos(Direction.NONE);
+                    lastDirection =  Direction.NONE;
+                }
+                else {
+                    // on continue dans la direction précédente
+                    config.pacmanDirection = changePos(lastDirection);
+                    config.pacManPos = config.pacManPos.add(config.pacmanDirection);
+                }
+            }
+
+            //Hors les deux cas, on change direction et il avance dans la nouvelle direction
+            // position est changé par +(1,0) ou -(1,0) ou +(0,1) ou -(0,1)
+            else {
+                config.pacmanDirection = pacmanNextDirection;
+                config.pacManPos = pacmanNextPos;
+                lastDirection = direction;
+            }
+        }
+    }
     
     
     //TODO : Ajouter le 3ème et le 4ème animal avec une IA différente de celle du lion et du gorille
