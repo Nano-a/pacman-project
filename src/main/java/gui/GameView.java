@@ -84,6 +84,112 @@ public class GameView extends Group {
         }
     }
 
+    public void animate( MazeState state) {
+         // Met à jour la vue du jeu en fonction de l'état du jeu
+        // Récupération de la configuration du labyrinthe depuis l'état du jeu
+        maze = state.getConfig();
 
+        // Vérification de la taille du labyrinthe pour la correspondance avec la grille d'images
+        assert maze.getRows() == this.rows && maze.getCols() == this.cols;
+
+        // Parcours de chaque cellule du labyrinthe pour afficher les éléments correspondants dans la vue
+        for (int row = 0; row < this.rows; row++){
+            for (int column = 0; column < this.cols; column++){
+                Cell value = maze.getCell(row, column);
+                if (value == Cell.TREE) {
+                    this.cellImages[row][column].setImage(this.treeImage);
+                }
+                else if (value == Cell.ENERGIZER) {
+                    this.cellImages[row][column].setImage(this.loadBanana);
+                }
+                else if (value == Cell.DOT) {
+                    this.cellImages[row][column].setImage(this.banana);
+                }
+                else {
+                    this.cellImages[row][column].setImage(null);
+                }
+
+                // Adapter l'image de PACMAN selon sa direction
+                if (row == maze.pacManPos.getX() && column == maze.pacManPos.getY() && (state.getLastDirection() == Direction.EAST || state.getLastDirection() == Direction.NONE)) {
+                    this.cellImages[row][column].setImage(this.pacmanEastImage);
+                }
+                else if (row == maze.pacManPos.getX() && column == maze.pacManPos.getY() && state.getLastDirection() == Direction.WEST) {
+                    this.cellImages[row][column].setImage(this.pacmanWestImage);
+                }
+                else if (row == maze.pacManPos.getX() && column == maze.pacManPos.getY() && state.getLastDirection() == Direction.NORTH) {
+                    this.cellImages[row][column].setImage(this.pacmanNorthImage);
+                }
+                else if (row == maze.pacManPos.getX() && column == maze.pacManPos.getY() && state.getLastDirection() == Direction.SOUTH) {
+                    this.cellImages[row][column].setImage(this.pacmanSouthImage);
+                }
+
+                // Clignoter les animaux grace au counter du ghostEatingMode (6,4,2) ; image normale else image en bleu
+                if (MazeState.isGhostEatingMode() && (Controller.getGhostEatingModeCounter() == 6 ||Controller.getGhostEatingModeCounter() == 4 || Controller.getGhostEatingModeCounter() == 2)) {
+                    if (row == maze.lionPos.getX() && column == maze.lionPos.getY()) {
+                        this.cellImages[row][column].setImage(this.lionImage);
+                    }
+                    if (row == maze.gorillaPos.getX() && column == maze.gorillaPos.getY()) {
+                        this.cellImages[row][column].setImage(this.gorillaImage);
+                    }
+                    if (row == maze.snakePos.getX() && column == maze.snakePos.getY()) {
+                        this.cellImages[row][column].setImage(this.snakeImage);
+                    }
+                    if (row == maze.tigerPos.getX() && column == maze.tigerPos.getY()) {
+                        this.cellImages[row][column].setImage(this.tigerImage);
+                    }
+                }
+                // Animaux en bleu si ghostEatingMode est activé
+                else if (MazeState.isGhostEatingMode()) {
+                    if (row == maze.lionPos.getX() && column == maze.lionPos.getY()) {
+                        this.cellImages[row][column].setImage(this.bluelionImage);
+                    }
+                    if (row == maze.gorillaPos.getX() && column == maze.gorillaPos.getY()) {
+                        this.cellImages[row][column].setImage(this.bluegorillaImage);
+                    }
+                    if (row == maze.snakePos.getX() && column == maze.snakePos.getY()) {
+                        this.cellImages[row][column].setImage(this.bluesnakeImage);
+                    }
+                    if (row == maze.tigerPos.getX() && column == maze.tigerPos.getY()) {
+                        this.cellImages[row][column].setImage(this.bluetigerImage);
+                    }
+                }
+                // sinon images normales
+                else {
+                    if (row == maze.lionPos.getX() && column == maze.lionPos.getY()) {
+                        this.cellImages[row][column].setImage(this.lionImage);
+                    }
+                    if (row == maze.gorillaPos.getX() && column == maze.gorillaPos.getY()) {
+                        this.cellImages[row][column].setImage(this.gorillaImage);
+                    }
+                    if (row == maze.snakePos.getX() && column == maze.snakePos.getY()) {
+                        this.cellImages[row][column].setImage(this.snakeImage);
+                    }
+                    if (row == maze.tigerPos.getX() && column == maze.tigerPos.getY()) {
+                        this.cellImages[row][column].setImage(this.tigerImage);
+                    }
+                }
+            }
+        }
+    }
+
+    //Getters et setters
+
+    public int getRowCount() {
+        return this.rows;
+    }
+
+    public void setRowCount(int rowCount) {
+        this.rows = rowCount;
+        this.initializeGrid();
+    }
+
+    public int getColumnCount() {
+        return this.cols;
+    }
+
+    public void setColumnCount(int columnCount) {
+        this.cols = columnCount;
+        this.initializeGrid();
+    }
 
 }
