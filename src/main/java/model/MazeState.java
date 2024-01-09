@@ -217,6 +217,30 @@ public final class MazeState {
         pause.play();
     }
     
+    public void sendGorillaHome() {
+        for (int row = 0; row < config.getRows(); row++) {
+            for (int column = 0; column < config.getCols(); column++) {
+                if (config.grid[row][column] == Cell.GORILLA) {
+                    config.gorillaPos = new IntCoordinates(row, column);
+                }
+            }
+        }
+        // Mettez en pause le mouvement
+        config.gorillaDirection = new IntCoordinates(0, 0);
+
+        // Créez un PauseTransition de 2 secondes
+        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        pause.setOnFinished(event -> {
+            // Après 2 secondes, remettez le fantôme en mouvement
+            Platform.runLater(() -> {
+                config.gorillaDirection = new IntCoordinates(-1, 0); // Remplacez par la logique de mouvement initial du fantôme
+            });
+        });
+
+        // Démarrez la transition
+        pause.play();
+    }
+    
     //TODO : Ajouter le 3ème et le 4ème animal avec une IA différente de celle du lion et du gorille
     public void moveGhosts() {
         IntCoordinates[] ghost1Data = moveAGhost(config.lionDirection, config.lionPos);
