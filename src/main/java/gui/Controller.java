@@ -56,5 +56,29 @@ public class Controller extends CommonController implements EventHandler<KeyEven
         this.update(Direction.NONE);
         ghostEatingModeCounter = 25;
     }
+    
+        public void resetGame() {
+        // Reset score, level, and any other game-related variables to initial values
+        model.startNewGame();
+        startTimer();
+    }
+
+    public void startTimer() {
+        this.timer = new java.util.Timer();
+        TimerTask timerTask = new TimerTask() {
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        update(model.getCurrentDirection());
+                    }
+                });
+            }
+        };
+
+        long frameTimeInMilliseconds = (long) (1000.0 / speed);
+        this.timer.schedule(timerTask, 0, frameTimeInMilliseconds);
+    }
+    
+    
 
 }
