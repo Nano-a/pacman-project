@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="background" prefHeight="600.0" prefWidth="875.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="gui.SettingsController">
+   <children>
+      <VBox layoutX="290.0" layoutY="250.0" prefHeight="255.0" prefWidth="300.0">
+         <children>
+
+                  <Button id="menuButton" fx:id="audioButton" onAction="#goToAudioSettings" prefWidth="250.0" text="AUDIO SETTINGS" >
+                     <VBox.margin>
+                        <Insets top="65.0" right="30.0" left="30.0" />
+                     </VBox.margin>
+                  </Button>
+
+
+                  <Button id="menuButton" fx:id="languageButton" onAction="#goToLanguageSettings" prefWidth="250.0" text="LANGUAGE SETTINGS" >
+                     <VBox.margin>
+                        <Insets top="20.0" right="30.0" left="30.0" />
+                     </VBox.margin>
+                  </Button>
+
+
+                  <Button id="menuButton" fx:id="returnButton" onAction="#goBackToMenu" prefWidth="250.0" text="RETURN" >
+                     <VBox.margin>
+                        <Insets top="20.0" right="30.0" left="30.0" />
+                     </VBox.margin>
+                  </Button>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
