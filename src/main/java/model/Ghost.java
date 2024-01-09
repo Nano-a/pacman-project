@@ -1,6 +1,7 @@
 package model;
 
 import geometry.RealCoordinates;
+import enums.Direction;
 
 // Classe énumération pour les fantômes, implémentant l'interface Critter.
 public enum Ghost implements Critter {

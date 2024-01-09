@@ -1,6 +1,8 @@
 package model;
 
 import geometry.RealCoordinates;
+import enums.Direction;
+
 
 // Classe pour représenter Pac-Man, implémentant l'interface Critter.
 public final class PacMan implements Critter {

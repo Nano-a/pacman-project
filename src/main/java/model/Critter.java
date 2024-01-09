@@ -1,5 +1,6 @@
 package model;
 
+import enums.Direction;
 import geometry.RealCoordinates;
 
 // Interface Critter, scellée pour permettre uniquement certaines classes (Ghost, PacMan) à l'étendre.
