@@ -408,6 +408,22 @@ public final class MazeState {
         sendLionHome();
         sendGorillaHome();
     }
+    
+    public Direction intToDirection(int x){
+        // convertir un entier en direction
+        if (x == 0){
+            return Direction.WEST;
+        }
+        else if (x == 1){
+            return Direction.EAST;
+        }
+        else if(x == 2){
+            return Direction.NORTH;
+        }
+        else{
+            return Direction.SOUTH;
+        }
+    }
 
     private void addScore(int increment) {
         score += increment;
