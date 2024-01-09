@@ -408,7 +408,89 @@ public final class MazeState {
         sendLionHome();
         sendGorillaHome();
     }
-    
+     
+     
+    // La méthode principal du jeu
+    public void step(Direction direction) {
+        // La méthode qui gère le déplacement de pacman et sa collison avec un dot et un energizer
+        // et la collison avec les animaux en mode normal ou en mode ghost eating mode
+
+        this.movePacman(direction);
+
+        Cell pacManPosCell = config.grid[(int) config.pacManPos.getX()][(int) config.pacManPos.getY()];
+        if (pacManPosCell == Cell.DOT) {
+            // on doit supprimer la dot de la grille ducoup on met Cell.Nothing
+            config.grid[(int) config.pacManPos.getX()][(int) config.pacManPos.getY()] = Cell.NOTHING;
+            SoundController.sound("eatingFruit"); // trop long à enlever
+            config.setNbDots( config.getNbDots()-1);
+            addScore(10);
+        }
+        if (pacManPosCell == Cell.ENERGIZER) {
+            // de meme pour le load de bananes
+            config.grid[(int) config.pacManPos.getX()][(int) config.pacManPos.getY()] = Cell.NOTHING;
+            SoundController.sound("eatingFruit"); // trop lent à enlever
+            config.setNbDots( config.getNbDots()-1);
+            addScore(50);
+            ghostEatingMode = true;
+            Controller.setGhostEatingModeCounter();
+        }
+
+        if (ghostEatingMode) {
+            // collision avec lanimal ; si on est en ghost eating mode on mange les animaux
+            if (config.pacManPos.equals(config.lionPos)) {
+                sendLionHome();
+               addScore(100);
+            }
+            if (config.pacManPos.equals(config.gorillaPos)) {
+                sendGorillaHome();
+                addScore(100);
+            }
+        }
+        else {
+            // à l'inverse mode normal , si on est pas en ghost eating mode on perd une vie
+            if (config.pacManPos.equals(config.lionPos)) {
+                this.resetPositions();
+                this.lives--;
+                if(this.lives== 0){
+                    gameOver = true;
+                }
+            }
+            if (config.pacManPos.equals(config.gorillaPos)) {
+                this.resetPositions();
+                this.lives--;
+                if(this.lives== 0){
+                    gameOver = true;
+                }
+            }
+        }
+        this.moveGhosts();
+        if (ghostEatingMode) {
+            if (config.pacManPos.equals(config.lionPos)) {
+                sendLionHome();
+                addScore(100);
+            }
+            if (config.pacManPos.equals(config.gorillaPos)) {
+                sendGorillaHome();
+                addScore(100);
+            }
+        }
+        else {
+            if (config.pacManPos.equals(config.lionPos)) {
+                this.resetPositions();
+                this.lives--;
+                if(this.lives== 0){
+                    gameOver = true;
+                }
+            }
+            if (config.pacManPos.equals(config.gorillaPos)) {
+                this.resetPositions();
+                this.lives--;
+                if(this.lives== 0){
+                    gameOver = true;
+                }
+            }
+        }
+     
     public Direction intToDirection(int x){
         // convertir un entier en direction
         if (x == 0){
