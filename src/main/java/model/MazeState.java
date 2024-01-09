@@ -191,6 +191,24 @@ public final class MazeState {
         }
     }
     
+        public IntCoordinates outOfGrid(IntCoordinates objectPos) {
+        // retourner la position correspodante quand on quitte le labyrinthe par les issus
+
+        //du coté droit
+        if (objectPos.getY() >= config.getCols()) {
+            objectPos = new IntCoordinates(objectPos.getX(), 0);
+            // sorti du  coté gauche
+        }
+        // si c'est du coté gauche
+        if (objectPos.getY() < 0) {
+            objectPos = new IntCoordinates(objectPos.getX(), config.getCols()-1);
+            // on se retrouve dans le coté droit 
+        }
+        return objectPos;
+    }
+    
+    
+    
     public void sendLionHome() { //lion
         for (int row = 0; row < config.getRows(); row++) {
             for (int column = 0; column < config.getCols(); column++) {
