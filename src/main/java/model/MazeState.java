@@ -1,176 +1,518 @@
 package model;
 
 import config.MazeConfig;
+import enums.Cell;
 import geometry.IntCoordinates;
-import geometry.RealCoordinates;
-
-import java.util.List;
-import java.util.Map;
-
-// Importations nécessaires pour l'interface utilisateur JavaFX
+import enums.Direction;
+import gui.Controller;
+import gui.SoundController;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import javafx.util.Duration;
+import java.util.Random;
 
-import static model.Ghost.*;
-
-// Classe finale pour gérer l'état du labyrinthe dans le jeu.
+/**
+ * Description : gérer l'état du labyrinthe dans le jeu et tous le model ; move Pacman et les ghosts
+ * les ghosts qui retournent à leurs positions initiliale , les sorties du labyrinthe , passer au level suivant
+ * Manger les dots et les energizer et biensur les collisions entre les ghosts et Pacman
+ * et le ghost eating mode ou les ghosts peuvent être mangé par Pacman
+ */
 public final class MazeState {
-    private final MazeConfig config; // Configuration du labyrinthe.
-    private final int height; // Hauteur du labyrinthe.
-    private final int width; // Largeur du labyrinthe.
-    private final Label scoreLabel = new Label(); // Étiquette pour afficher le score.
+    private final MazeConfig config; // Configuration du labyrinthe à [partir du fichier]
+    private static boolean gameOver; // variable de jeu pour savoir si on a perdu
+    private static boolean Pause; // variable de jeu pour savoir si on est en pause
+    private static boolean youWon; // variable de jeu pour savoir si on a gagné
+    private static boolean ghostEatingMode;  // vsi on est en ghost eating mode
+    private int score;
+    private int level;
+    private int lives;
+    private static Direction lastDirection;
+    private static Direction currentDirection = Direction.NONE;
 
-    private final boolean[][] gridState; // État des cellules du labyrinthe (occupé ou non).
+    public Direction getLastDirection() {
+        return lastDirection;
+    }
 
-    private final List<Critter> critters; // Liste des créatures (Pac-Man et fantômes).
-    private int score; // Score actuel du joueur.
+    public Direction getCurrentDirection() {
+        return currentDirection;
+    }
 
-    private final Map<Critter, RealCoordinates> initialPos; // Positions initiales des créatures.
-    private int lives = 3; // Nombre de vies du joueur.
+    public void setCurrentDirection(Direction direction) {
+        currentDirection = direction;
+    }
 
-    // Constructeur de MazeState.
+    public int getLives() {
+        return lives;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
     public MazeState(MazeConfig config) {
         this.config = config;
-        height = config.getHeight();
-        width = config.getWidth();
-        scoreLabel.setText("Score: " + score); // Initialisation de l'étiquette du score.
-        VBox vbox = new VBox(); // Boîte verticale pour l'interface utilisateur.
-        vbox.getChildren().add(scoreLabel); // Ajout de l'étiquette du score à la boîte.
-        // Initialisation des créatures et de l'état du labyrinthe.
-        critters = List.of(PacMan.INSTANCE, Ghost.CLYDE, BLINKY, INKY, PINKY);
-        gridState = new boolean[height][width];
-        initialPos = Map.of(
-                PacMan.INSTANCE, config.getPacManPos().toRealCoordinates(1.0),
-                BLINKY, config.getBlinkyPos().toRealCoordinates(1.0),
-                INKY, config.getInkyPos().toRealCoordinates(1.0),
-                CLYDE, config.getClydePos().toRealCoordinates(1.0),
-                PINKY, config.getPinkyPos().toRealCoordinates(1.0)
-        );
-        resetCritters(); // Réinitialisation des positions des créatures.
     }
 
-    public List<Critter> getCritters() {
-        return critters;
+    public void startNewGame() {
+        // initialiser les variables du jeu pour commencer une nouvelle partie
+        this.gameOver = false;
+        this.youWon = false;
+        this.Pause = false;
+        this.ghostEatingMode = false;
+        config.setNbDots(0);
+        config.setRows(0);
+        config.setCols(0);
+        this.score = 0;
+        this.level = 1;
+        this.lives = 3; // 3 vies
+        config.loadMazeFromFile(Controller.getLevelFile(0)); // niveau 1 avec indice dans le tableau 0
     }
 
-    public double getWidth() {
-        return width;
+
+    public void startNextLevel() {
+        if (this.isLevelComplete()) {
+            this.level++;
+            config.setCols(0);
+            config.setCols(0);
+            youWon = false;
+            ghostEatingMode = false;
+            try {
+                config.loadMazeFromFile(Controller.getLevelFile(level - 1));
+            } catch (ArrayIndexOutOfBoundsException e) {
+                //si y'a plus de niveaux on a fini le 3 c'est à dire on a gagné
+                youWon = true;
+                gameOver = true;
+                level--;
+            }
+        }
     }
 
-    public int getHeight() {
-        return height;
+    public boolean isLevelComplete() {
+        // c'est à dire que tous les dots ont été mangé par PacMan
+        return config.getNbDots() == 0;
     }
 
-    public void update(long deltaTns) {
-        // FIXME: too many things in this method. Maybe some responsibilities can be delegated to other methods or classes?
-        for  (var critter: critters) {
-            var curPos = critter.getPos();
-            var nextPos = critter.nextPos(deltaTns);
-            var curNeighbours = curPos.intNeighbours();
-            var nextNeighbours = nextPos.intNeighbours();
-            boolean wallCollision = false; // booléan qui va permettre de savoir quand pacman touche un mur
-            if (!curNeighbours.containsAll(nextNeighbours)) {
-                switch (critter.getDirection()) {
-                    case NORTH -> {
-                        for (var n: curNeighbours) {
-                            if (config.getCell(n).northWall()) {
-                                wallCollision = true;
-                                break;
-                            }
-                        }
-                    }
-                    case EAST -> {
-                        for (var n: curNeighbours) {
-                            if (config.getCell(n).eastWall()) {
-                                wallCollision = true;
-                                break;
-                            }
-                        }
-                    }
-                    case SOUTH -> {
-                        for (var n: curNeighbours) {
-                            if (config.getCell(n).southWall()) {
-                                wallCollision = true;
-                                break;
-                            }
-                        }
-                    }
-                    case WEST -> {
-                        for (var n: curNeighbours) {
-                            if (config.getCell(n).westWall()) {
-                                wallCollision = true;
-                                break;
-                            }
-                        }
-                    }
+    public static boolean isGameOver() {
+        return gameOver;
+    }
+
+    public static boolean isPaused() {
+        return Pause;
+    }
+
+    public static boolean isGhostEatingMode() {
+        return ghostEatingMode;
+    }
+
+    public static void setGhostEatingMode(boolean ghostEatingModeBool) {
+        ghostEatingMode = ghostEatingModeBool;
+    }
+
+    public static boolean isYouWon() {
+        return youWon;
+    }
+    
+    public void movePacman(Direction direction) {
+        // Calcul de la prochaine direction souhaitée pour Pac-Man
+        IntCoordinates pacmanNextDirection = changePos(direction);
+        // Calcul de la prochaine position de Pac-Man en fonction de la direction
+        IntCoordinates pacmanNextPos = config.pacManPos.add(pacmanNextDirection);
+
+        // Si Pac-Man sort de l'écran, il réapparaît de l'autre côté (effet de rebond)
+        pacmanNextPos = outOfGrid(pacmanNextPos);
+
+
+        if (direction.equals(lastDirection)) {
+            // On arrete PacMan si il rencontre un mur
+            if (config.grid[(int) pacmanNextPos.getX()][(int) pacmanNextPos.getY()] == Cell.TREE){
+                config.pacmanDirection = changePos(Direction.NONE);
+                lastDirection = Direction.NONE ;
+            }
+            else {
+                config.pacmanDirection = pacmanNextDirection;
+                config.pacManPos = pacmanNextPos;
+            }
+        }
+
+
+        // Si la dernière direction est différente de la direction actuelle, vérifie les murs avant de changer de directionoing in a new direction
+        else {
+            if (config.grid[(int) pacmanNextPos.getX()][(int) pacmanNextPos.getY()] == Cell.TREE){
+                pacmanNextDirection = changePos(lastDirection);
+                pacmanNextPos = config.pacManPos.add(pacmanNextDirection);
+
+                // si avec la direction on rencontre un mur on arrete PacMan
+                if (config.grid[(int) pacmanNextPos.getX()][(int) pacmanNextPos.getY()] == Cell.TREE){
+                    config.pacmanDirection = changePos(Direction.NONE);
+                    lastDirection =  Direction.NONE;
+                }
+                else {
+                    // on continue dans la direction précédente
+                    config.pacmanDirection = changePos(lastDirection);
+                    config.pacManPos = config.pacManPos.add(config.pacmanDirection);
                 }
             }
-            // Update position only if there is no wall collision
-            if (!wallCollision) {
-                critter.setPos(nextPos.warp(width, height));
+
+            //Hors les deux cas, on change direction et il avance dans la nouvelle direction
+            // position est changé par +(1,0) ou -(1,0) ou +(0,1) ou -(0,1)
+            else {
+                config.pacmanDirection = pacmanNextDirection;
+                config.pacManPos = pacmanNextPos;
+                lastDirection = direction;
             }
         }
-        // FIXME Pac-Man rules should somehow be in Pacman class
-        var pacPos = PacMan.INSTANCE.getPos().round();
-        if (!gridState[pacPos.y()][pacPos.x()]) {
-            addScore(1);
-            gridState[pacPos.y()][pacPos.x()] = true;
+    }
+    
+    /**  @param direction
+@Description : change la position de pacman selon la direction qu'on récupère dans le controller avec le clavier
+@return*/
+
+    
+    public IntCoordinates changePos(Direction direction){
+        if(direction == Direction.WEST){
+            // y est décrémenté
+            return new IntCoordinates(0,-1);
         }
-        for (var critter : critters) {
-            if (critter instanceof Ghost && critter.getPos().round().equals(pacPos)) {
-                if (PacMan.INSTANCE.isEnergized()) {
-                    addScore(10);
-                    resetCritter(critter);
+        else if(direction == Direction.EAST){
+            return new IntCoordinates(0,1);
+        }
+        else if(direction == Direction.NORTH){
+            return new IntCoordinates(-1,0);
+        }
+        else if(direction == Direction.SOUTH){
+            return new IntCoordinates(1,0);
+        }
+        else{
+            return new IntCoordinates(0,0);
+        }
+    }
+    
+        public IntCoordinates outOfGrid(IntCoordinates objectPos) {
+        // retourner la position correspodante quand on quitte le labyrinthe par les issus
+
+        //du coté droit
+        if (objectPos.getY() >= config.getCols()) {
+            objectPos = new IntCoordinates(objectPos.getX(), 0);
+            // sorti du  coté gauche
+        }
+        // si c'est du coté gauche
+        if (objectPos.getY() < 0) {
+            objectPos = new IntCoordinates(objectPos.getX(), config.getCols()-1);
+            // on se retrouve dans le coté droit 
+        }
+        return objectPos;
+    }
+    
+    
+    
+    public void sendLionHome() { //lion
+        for (int row = 0; row < config.getRows(); row++) {
+            for (int column = 0; column < config.getCols(); column++) {
+                if (config.grid[row][column] == Cell.LION) {
+                    // on récupère la position du lion initiale
+                    config.lionPos = new IntCoordinates(row, column);
+                }
+            }
+        }
+
+        // Mettez en pause le mouvement du lion
+        config.lionDirection = new IntCoordinates(0, 0);
+
+        // Créez un PauseTransition de 2 secondes
+        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        pause.setOnFinished(event -> {
+            // Après 2 secondes, remettez le fantôme en mouvement
+            Platform.runLater(() -> {
+                config.lionDirection = new IntCoordinates(-1, 0); // Remplacez par la logique de mouvement initial du fantôme
+            });
+        });
+
+        // Démarrez la transition
+        pause.play();
+    }
+    
+    public void sendGorillaHome() {
+        for (int row = 0; row < config.getRows(); row++) {
+            for (int column = 0; column < config.getCols(); column++) {
+                if (config.grid[row][column] == Cell.GORILLA) {
+                    config.gorillaPos = new IntCoordinates(row, column);
+                }
+            }
+        }
+        // Mettez en pause le mouvement
+        config.gorillaDirection = new IntCoordinates(0, 0);
+
+        // Créez un PauseTransition de 2 secondes
+        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        pause.setOnFinished(event -> {
+            // Après 2 secondes, remettez le fantôme en mouvement
+            Platform.runLater(() -> {
+                config.gorillaDirection = new IntCoordinates(-1, 0); // Remplacez par la logique de mouvement initial du fantôme
+            });
+        });
+
+        // Démarrez la transition
+        pause.play();
+    }
+    
+    //TODO : Ajouter le 3ème et le 4ème animal avec une IA différente de celle du lion et du gorille
+    public void moveGhosts() {
+        IntCoordinates[] ghost1Data = moveAGhost(config.lionDirection, config.lionPos);
+        IntCoordinates[] ghost2Data = moveAGhost(config.gorillaDirection,config.gorillaPos);
+        config.lionDirection = ghost1Data[0];
+        config.lionPos = ghost1Data[1];
+        config.gorillaDirection = ghost2Data[0];
+        config.gorillaPos = ghost2Data[1];
+
+    }
+
+    public IntCoordinates[] moveAGhost(IntCoordinates dir, IntCoordinates pos){
+        Random generator = new Random(); //pour générer des directions aléatoires
+        // Si les animaux sont en mode normal , et sils sont dans la meme ligne ou colonne que Pacman
+        // ils le poursuivent jusqu'a renocntrer un mur et ils changent de direction
+        // vers une direction random
+
+        if (!ghostEatingMode) {
+            // si meme ligne que le Pacman
+            if (pos.getY() == config.pacManPos.getY()) {
+                if (pos.getX() > config.pacManPos.getX()) {
+                    dir = changePos(Direction.NORTH);
                 } else {
-                    playerLost();
-                    return;
+                    dir = changePos(Direction.SOUTH);
+                }
+
+                IntCoordinates potentialPos = pos.add(dir);
+                // animaux qui traversent le labyrinthe
+                potentialPos = outOfGrid(potentialPos);
+
+                //la on genere une direction random pour changer de direction jusqu'a ce que l'animal ne rencontre pas un mur
+                while (config.grid[(int) potentialPos.getX()][(int) potentialPos.getY()] == Cell.TREE) {
+                    int randomNum = generator.nextInt(4);
+                    Direction direction = intToDirection(randomNum);
+                    dir = changePos(direction);
+                    potentialPos = pos.add(dir);
+                }
+                pos = potentialPos;
+            }
+            // meme colonne
+            else if (pos.getX() == config.pacManPos.getX()) {
+                if (pos.getY() > config.pacManPos.getY()) {
+
+
+                    dir = changePos(Direction.WEST);
+                } else {
+                    dir = changePos(Direction.EAST);
+                }
+                IntCoordinates potentialPos = pos.add(dir);
+                potentialPos = outOfGrid(potentialPos);
+
+                while (config.grid[(int) potentialPos.getX()][(int) potentialPos.getY()] == Cell.TREE) {
+                    int randomNum = generator.nextInt(4);
+                    Direction direction = intToDirection(randomNum);
+                    dir = changePos(direction);
+                    potentialPos = pos.add(dir);
+                }
+                pos = potentialPos;
+            }
+            // Random
+            else{
+                IntCoordinates potentialPos = pos.add(dir);
+                potentialPos = outOfGrid(potentialPos);
+                while(config.grid[(int) potentialPos.getX()][(int) potentialPos.getY()] == Cell.TREE){
+                    int randomNum = generator.nextInt( 4);
+                    Direction direction = intToDirection(randomNum);
+                    dir = changePos(direction);
+                    potentialPos = pos.add(dir);
+                }
+                pos = potentialPos;
+            }
+        }
+        // dans l'autre mode , les animaux fuient Pacman
+        // on part à la direction opposé de Pacman jusqu'a rencontrer un mur
+        // sinon random
+
+        if (ghostEatingMode) {
+            if (pos.getY() == config.pacManPos.getY()) {
+                if (pos.getX() > config.pacManPos.getX()) {
+                    dir = changePos(Direction.SOUTH);
+                } else {
+                    dir = changePos(Direction.NORTH);
+                }
+
+                IntCoordinates potentialPos = pos.add(dir);
+                // hors labyrinthe
+                potentialPos = outOfGrid(potentialPos);
+
+
+                while (config.grid[(int) potentialPos.getX()][(int) potentialPos.getY()] == Cell.TREE) {
+                    int randomNum = generator.nextInt(4);
+                    Direction direction = intToDirection(randomNum);
+                    dir = changePos(direction);
+                    potentialPos = pos.add(dir);
+                }
+                pos = potentialPos;
+
+            } else if (pos.getX() == config.pacManPos.getX()) {
+                if (pos.getY() > config.pacManPos.getY()) {
+                    dir = changePos(Direction.EAST);
+                } else {
+                    dir = changePos(Direction.WEST);
+                }
+                IntCoordinates potentialPos = pos.add(dir);
+                potentialPos = outOfGrid(potentialPos);
+                // random
+                while (config.grid[(int) potentialPos.getX()][(int) potentialPos.getY()] == Cell.TREE) {
+                    int randomNum = generator.nextInt(4);
+                    Direction direction = intToDirection(randomNum);
+                    dir = changePos(direction);
+                    potentialPos = pos.add(dir);
+                }
+                pos = potentialPos;
+            }
+            else{
+                // random
+                IntCoordinates potentialPos = pos.add(dir);
+                potentialPos = outOfGrid(potentialPos);
+                while(config.grid[(int) potentialPos.getX()][(int) potentialPos.getY()] == Cell.TREE){
+                    int randomNum = generator.nextInt( 4);
+                    Direction direction = intToDirection(randomNum);
+                    dir = changePos(direction);
+                    potentialPos = pos.add(dir);
+                }
+                pos = potentialPos;
+            }
+        }
+        IntCoordinates[] data = {dir, pos};
+        return data;
+
+    }
+    
+
+
+    public void resetPositions() {
+        // Réinitialiser la position de Pac-Man à sa position de départ
+        // appelé une fois il a perdu la vie
+        for (int row = 0; row < config.getRows(); row++) {
+            for (int column = 0; column < config.getCols(); column++) {
+                if (config.grid[row][column] == Cell.PACMAN) {
+                    config.pacManPos = new IntCoordinates(row, column);
+                    break;
                 }
             }
         }
+        // Réinitialiser la position des fantômes à leur position de départ
+        sendLionHome();
+        sendGorillaHome();
+    }
+     
+     
+    // La méthode principal du jeu
+    public void step(Direction direction) {
+        // La méthode qui gère le déplacement de pacman et sa collison avec un dot et un energizer
+        // et la collison avec les animaux en mode normal ou en mode ghost eating mode
+
+        this.movePacman(direction);
+
+        Cell pacManPosCell = config.grid[(int) config.pacManPos.getX()][(int) config.pacManPos.getY()];
+        if (pacManPosCell == Cell.DOT) {
+            // on doit supprimer la dot de la grille ducoup on met Cell.Nothing
+            config.grid[(int) config.pacManPos.getX()][(int) config.pacManPos.getY()] = Cell.NOTHING;
+            SoundController.sound("eatingFruit"); // trop long à enlever
+            config.setNbDots( config.getNbDots()-1);
+            addScore(10);
+        }
+        if (pacManPosCell == Cell.ENERGIZER) {
+            // de meme pour le load de bananes
+            config.grid[(int) config.pacManPos.getX()][(int) config.pacManPos.getY()] = Cell.NOTHING;
+            SoundController.sound("eatingFruit"); // trop lent à enlever
+            config.setNbDots( config.getNbDots()-1);
+            addScore(50);
+            ghostEatingMode = true;
+            Controller.setGhostEatingModeCounter();
+        }
+
+        if (ghostEatingMode) {
+            // collision avec lanimal ; si on est en ghost eating mode on mange les animaux
+            if (config.pacManPos.equals(config.lionPos)) {
+                sendLionHome();
+               addScore(100);
+            }
+            if (config.pacManPos.equals(config.gorillaPos)) {
+                sendGorillaHome();
+                addScore(100);
+            }
+        }
+        else {
+            // à l'inverse mode normal , si on est pas en ghost eating mode on perd une vie
+            if (config.pacManPos.equals(config.lionPos)) {
+                this.resetPositions();
+                this.lives--;
+                if(this.lives== 0){
+                    gameOver = true;
+                }
+            }
+            if (config.pacManPos.equals(config.gorillaPos)) {
+                this.resetPositions();
+                this.lives--;
+                if(this.lives== 0){
+                    gameOver = true;
+                }
+            }
+        }
+        this.moveGhosts();
+        if (ghostEatingMode) {
+            if (config.pacManPos.equals(config.lionPos)) {
+                sendLionHome();
+                addScore(100);
+            }
+            if (config.pacManPos.equals(config.gorillaPos)) {
+                sendGorillaHome();
+                addScore(100);
+            }
+        }
+        else {
+            if (config.pacManPos.equals(config.lionPos)) {
+                this.resetPositions();
+                this.lives--;
+                if(this.lives== 0){
+                    gameOver = true;
+                }
+            }
+            if (config.pacManPos.equals(config.gorillaPos)) {
+                this.resetPositions();
+                this.lives--;
+                if(this.lives== 0){
+                    gameOver = true;
+                }
+            }
+        }
+     
+    public Direction intToDirection(int x){
+        // convertir un entier en direction
+        if (x == 0){
+            return Direction.WEST;
+        }
+        else if (x == 1){
+            return Direction.EAST;
+        }
+        else if(x == 2){
+            return Direction.NORTH;
+        }
+        else{
+            return Direction.SOUTH;
+        }
     }
 
-    // Méthode pour ajouter des points au score.
     private void addScore(int increment) {
         score += increment;
-        displayScore(); // Affichage du score mis à jour.
-    }
-
-    // Méthode pour afficher le score.
-    private void displayScore() {
-        // Affichage du score dans la console (à remplacer par un affichage dans l'interface utilisateur).
-        System.out.println("Score: " + score);
-    }
-
-    // Méthode appelée lorsque le joueur perd une vie.
-    private void playerLost() {
-        lives--;
-        if (lives == 0) {
-            System.out.println("Game over!"); // Affichage du message de fin de jeu.
-            System.exit(0); // Sortie du jeu.
-        }
-        System.out.println("Lives: " + lives); // Affichage des vies restantes.
-        resetCritters(); // Réinitialisation des positions des créatures.
-    }
-
-
-    private void resetCritter(Critter critter) {
-        critter.setDirection(Direction.NONE);
-        critter.setPos(initialPos.get(critter));
-    }
-
-    private void resetCritters() {
-        for (var critter: critters) resetCritter(critter);
     }
 
     public MazeConfig getConfig() {
         return config;
     }
-
-    public boolean getGridState(IntCoordinates pos) {
-        return gridState[pos.y()][pos.x()];
-    }
 }
+
