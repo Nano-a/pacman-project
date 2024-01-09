@@ -80,6 +80,38 @@ public class Controller extends CommonController implements EventHandler<KeyEven
     }
     
     
+    @Override
+    public void handle(KeyEvent keyEvent) {
+        boolean keyRecognized = true;
+        KeyCode code = keyEvent.getCode();
+        Direction direction = Direction.NONE;
+        if (code == KeyCode.LEFT) {
+            direction = Direction.WEST;
+        } else if (code == KeyCode.RIGHT) {
+            direction = Direction.EAST;
+        } else if (code == KeyCode.UP) {
+            direction = Direction.NORTH;
+        } else if (code == KeyCode.DOWN) {
+            direction = Direction.SOUTH;
+        } else if (code == KeyCode.ESCAPE) {
+            SoundController.musique("JungleTheme");
+            manager.switchScene(FxmlFiles.PAUSE);
+            pause();
+        } else {
+            keyRecognized = false;
+        }
+        if (keyRecognized) {
+            keyEvent.consume();
+            model.setCurrentDirection(direction);
+        }
+    }
+
+    public void setUpKeyEvents() {
+        Scene scene = this.score.getScene(); // Get the scene where the labels are present
+        // Add event handler for key presses
+        scene.setOnKeyPressed(this);
+    }
+    
     public void pause() {
         this.timer.cancel();
         this.paused = true;
