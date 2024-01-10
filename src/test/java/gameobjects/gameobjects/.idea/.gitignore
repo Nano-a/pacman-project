@@ -1,6 +1,0 @@
-#Comme pour les fichiers de configuration de module IntelliJ IDEA (.XML), les fichiers .gitignore
-#ne sont pas soumis à des tests unitaires de la même manière que le code source. Un fichier .gitignore
-#spécifie les fichiers et dossiers que Git doit ignorer. Sa validité dépend de sa capacité à empêcher
-#Git de suivre les fichiers et dossiers non désirés, et non d'une logique interne qui pourrait être
-#testée avec des tests unitaires.
-#
