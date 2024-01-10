@@ -258,15 +258,70 @@ public final class MazeState {
         // Démarrez la transition
         pause.play();
     }
+
+
+    public void sendSnakeHome(){
+        for (int row = 0; row < config.getRows(); row++) {
+            for (int column = 0; column < config.getCols(); column++) {
+                if (config.grid[row][column] == Cell.SNAKE) {
+                    config.snakePos = new IntCoordinates(row, column);
+                }
+            }
+        }
+        // Mettez en pause le mouvement
+        config.snakeDirection = new IntCoordinates(0, 0);
+
+        // Créez un PauseTransition de 2 secondes
+        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        pause.setOnFinished(event -> {
+            // Après 2 secondes, remettez le fantôme en mouvement
+            Platform.runLater(() -> {
+                config.snakeDirection = new IntCoordinates(-1, 0); // Remplacez par la logique de mouvement initial du fantôme
+            });
+        });
+
+        // Démarrez la transition
+        pause.play();
+    }
+
+    public void sendTigerHome(){
+        for (int row = 0; row < config.getRows(); row++) {
+            for (int column = 0; column < config.getCols(); column++) {
+                if (config.grid[row][column] == Cell.TIGER) {
+                    config.tigerPos = new IntCoordinates(row, column);
+                }
+            }
+        }
+        // Mettez en pause le mouvement
+        config.tigerDirection = new IntCoordinates(0, 0);
+
+        // Créez un PauseTransition de 2 secondes
+        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        pause.setOnFinished(event -> {
+            // Après 2 secondes, remettez le fantôme en mouvement
+            Platform.runLater(() -> {
+                config.tigerDirection = new IntCoordinates(-1, 0); // Remplacez par la logique de mouvement initial du fantôme
+            });
+        });
+
+        // Démarrez la transition
+        pause.play();
+    }
     
     //TODO : Ajouter le 3ème et le 4ème animal avec une IA différente de celle du lion et du gorille
     public void moveGhosts() {
         IntCoordinates[] ghost1Data = moveAGhost(config.lionDirection, config.lionPos);
         IntCoordinates[] ghost2Data = moveAGhost(config.gorillaDirection,config.gorillaPos);
+        IntCoordinates[] ghost3Data = moveAGhost(config.snakeDirection,config.snakePos);
+        IntCoordinates[] ghost4Data = moveAGhost(config.tigerDirection,config.tigerPos);
         config.lionDirection = ghost1Data[0];
         config.lionPos = ghost1Data[1];
         config.gorillaDirection = ghost2Data[0];
         config.gorillaPos = ghost2Data[1];
+        config.snakeDirection = ghost3Data[0];
+        config.snakePos = ghost3Data[1];
+        config.tigerDirection = ghost4Data[0];
+        config.tigerPos = ghost4Data[1];
 
     }
 
@@ -407,6 +462,8 @@ public final class MazeState {
         // Réinitialiser la position des fantômes à leur position de départ
         sendLionHome();
         sendGorillaHome();
+        sendSnakeHome();
+        sendTigerHome();
     }
      
      
@@ -445,6 +502,15 @@ public final class MazeState {
                 sendGorillaHome();
                 addScore(100);
             }
+            if (config.pacManPos.equals(config.snakePos)) {
+                sendSnakeHome();
+                addScore(100);
+            }
+            if (config.pacManPos.equals(config.tigerPos)) {
+                sendTigerHome();
+                addScore(100);
+            }
+
         }
         else {
             // à l'inverse mode normal , si on est pas en ghost eating mode on perd une vie
@@ -462,6 +528,21 @@ public final class MazeState {
                     gameOver = true;
                 }
             }
+            if (config.pacManPos.equals(config.snakePos)) {
+                this.resetPositions();
+                this.lives--;
+                if(this.lives== 0){
+                    gameOver = true;
+                }
+            }
+            if (config.pacManPos.equals(config.tigerPos)) {
+                this.resetPositions();
+                this.lives--;
+                if(this.lives== 0){
+                    gameOver = true;
+                }
+            }
+
         }
         this.moveGhosts();
         if (ghostEatingMode) {
@@ -473,6 +554,15 @@ public final class MazeState {
                 sendGorillaHome();
                 addScore(100);
             }
+            if (config.pacManPos.equals(config.snakePos)) {
+                sendSnakeHome();
+                addScore(100);
+            }
+            if (config.pacManPos.equals(config.tigerPos)) {
+                sendTigerHome();
+                addScore(100);
+            }
+
         }
         else {
             if (config.pacManPos.equals(config.lionPos)) {
@@ -483,6 +573,20 @@ public final class MazeState {
                 }
             }
             if (config.pacManPos.equals(config.gorillaPos)) {
+                this.resetPositions();
+                this.lives--;
+                if(this.lives== 0){
+                    gameOver = true;
+                }
+            }
+            if (config.pacManPos.equals(config.snakePos)) {
+                this.resetPositions();
+                this.lives--;
+                if(this.lives== 0){
+                    gameOver = true;
+                }
+            }
+            if (config.pacManPos.equals(config.tigerPos)) {
                 this.resetPositions();
                 this.lives--;
                 if(this.lives== 0){
