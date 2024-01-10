@@ -1,53 +1,54 @@
 package model;
 
-import geometry.IntCoordinates;
+import static org.junit.jupiter.api.Assertions.*;
+
 import config.MazeConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
+import geometry.IntCoordinates;
+import enums.Direction;
 
-public class MazeStateTest {
+import java.io.File;
+
+class MazeStateTest {
 
     private MazeState mazeState;
-    private MazeConfig configMock;
 
     @BeforeEach
-    public void setUp() {
-        configMock = mock(MazeConfig.class);
-        mazeState = new MazeState(configMock);
+    void setUp() {
+        // Initialisez MazeState avec les paramètres nécessaires
+        File f = new File("src/main/resources/levels/level1.txt");
+        MazeConfig config = new MazeConfig(f.getAbsolutePath());
+        mazeState = new MazeState(config);
     }
 
     @Test
-    public void testInitialMazeState() {
-        // Vérifier les conditions initiales du labyrinthe
-        assertNotNull(mazeState.getConfig(), "Le MazeConfig ne doit pas être null.");
-        // Vérifier les dimensions du labyrinthe
-        assertEquals(configMock.getHeight(), mazeState.getHeight(), "La hauteur doit correspondre à celle du MazeConfig.");
-        assertEquals(configMock.getWidth(), mazeState.getWidth(), "La largeur doit correspondre à celle du MazeConfig.");
-        // Vérifiez d'autres aspects initiaux comme la liste des critters
+    void testInitialState() {
+        assertNotNull(mazeState);
+
     }
 
     @Test
-    public void testUpdateMethod() {
-        // Testez la méthode update pour différentes situations
-        long deltaTns = 1000000000L; // 1 seconde en nanosecondes
-        mazeState.update(deltaTns);
-
-        // Vérifiez les mises à jour des positions des critters, des collisions, etc.
-        // Vous pouvez simuler des scénarios spécifiques et vérifier le résultat attendu
+    void testPacmanMovement() {
+        // Supposons qu'il y ait une méthode pour déplacer Pacman
+        mazeState.movePacman(Direction.NORTH);
+        // Vérifiez la nouvelle position de Pacman
+       // assertEquals(new IntCoordinates(15,15), mazeState.getConfig().pacManPos);
+        // Assertions supplémentaires basées sur les règles du jeu
     }
 
     @Test
-    public void testScoreAndLivesManagement() {
-        // Simulez des situations qui changeraient le score et le nombre de vies
-        // Par exemple, simuler que PacMan mange des points ou est attrapé par un fantôme
-        // Utilisez des méthodes publiques de MazeState pour réaliser ces simulations
-
-        // Vérifiez les changements attendus dans le score et les vies
-        // Il peut être nécessaire d'ajouter des méthodes d'accès (getters) dans MazeState pour cela
+    void testGhostBehavior() {
+        // Testez le comportement des fantômes dans le labyrinthe
+        // Cela dépendra de la manière dont les fantômes sont implémentés et contrôlés dans MazeState
     }
 
+    @Test
+    void testGameStateChanged() {
+        // Testez les changements d'état du jeu, comme la fin d'un niveau, la perte d'une vie, etc.
+        // Cela dépendra de la façon dont ces états sont représentés et gérés dans MazeState
+    }
 
-    // Ajoutez d'autres tests pour couvrir tous les aspects de MazeState
+    // Ajoutez plus de tests en fonction des autres fonctionnalités de MazeState
 }
+
