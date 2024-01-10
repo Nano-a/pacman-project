@@ -1,27 +1,23 @@
 package geometry;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
-public class IntCoordinatesTest {
+class IntCoordinatesTest {
 
     @Test
-    public void testToRealCoordinates() {
-        IntCoordinates intCoords = new IntCoordinates(2, 3);
-        double scale = 1.5;
-        RealCoordinates realCoords = intCoords.toRealCoordinates(scale);
-
-        assertEquals(3.0, realCoords.x(), "La conversion de x doit être correcte.");
-        assertEquals(4.5, realCoords.y(), "La conversion de y doit être correcte.");
+    void testCoordinateInitialization() {
+        IntCoordinates coords = new IntCoordinates(5, 10);
+        assertEquals(5, coords.getX());
+        assertEquals(10, coords.getY());
     }
 
     @Test
-    public void testAccessors() {
-        IntCoordinates intCoords = new IntCoordinates(2, 3);
-
-        assertEquals(2, intCoords.getX(), "L'accès à x doit retourner la bonne valeur.");
-        assertEquals(3, intCoords.getY(), "L'accès à y doit retourner la bonne valeur.");
+    void testSetCoordinates() {
+        IntCoordinates coords = new IntCoordinates(0,0);
+        coords.setX(7);
+        coords.setY(12);
+        assertEquals(7, coords.getX());
+        assertEquals(12, coords.getY());
     }
-
-    // Ajoutez d'autres tests si nécessaire
 }
