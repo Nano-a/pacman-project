@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<AnchorPane id="background" prefHeight="600.0" prefWidth="875.0" stylesheets="/css/style.css" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/" fx:controller="gui.SettingsAudioController">
+   <children>
+
+      <VBox layoutX="288.0" layoutY="251.0" prefHeight="335.0" prefWidth="300.0">
+         <children>
+
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <ImageView id="options-label" >
+                  <image>
+                     <!-- Chargement de l'image 'music.png' -->
+                     <Image url="@../music.png" />
+                  </image>
+               </ImageView>
+               <ChoiceBox fx:id="themeMusicChoiceBox" >
+                  <items>
+                     <!-- Choix des musiques disponibles -->
+                     <FXCollections fx:factory="observableArrayList" >
+                        <String fx:id="themePlaySong" fx:value="Pacman Theme"/>
+                        <String fx:value="Electronic Music"/>
+                        <String fx:value="GeometryDash Theme"/>
+                        <String fx:value="Lofi Music"/>
+                        <String fx:value="Eighties Music"/>
+                        <String fx:value="BananaKong Theme"/>
+                     </FXCollections>
+
+                  </items>
+                  <HBox.margin>
+                     <Insets left="60.0" />
+                  </HBox.margin>
+               </ChoiceBox>
+            </HBox>
+            <!-- Section pour gérer le son -->
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                    <ImageView id="options-label" >
+                        <image>
+                           <!-- Chargement de l'image 'Volume.png' -->
+                            <Image url="@../Volume.png" />
+                        </image>
+                    </ImageView>
+                  <!-- Bouton pour activer/désactiver le son -->
+                  <Button id="menuButton" fx:id="soundButton" onAction="#toggleSound" prefHeight="50.0" prefWidth="150.0" text="On">
+                     <HBox.margin>
+                        <Insets left="25.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <!-- Section pour gérer la musique -->
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <ImageView id="options-label" >
+                     <image>
+                        <!-- Chargement de l'image 'Music1.png' -->
+                        <Image url="@../Music1.png" />
+                     </image>
+                  </ImageView>
+                  <!-- Bouton pour activer/désactiver la musique -->
+                  <Button id="menuButton" fx:id="musicButton" onAction="#toggleMusic" prefHeight="50.0" prefWidth="150.0" text="On">
+                     <HBox.margin>
+                        <Insets left="25.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <!-- Bouton pour revenir aux options précédentes -->
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button id="menuButton"  fx:id="ReturnButton" onAction="#goBackToOptions" prefWidth="250.0" text="RETURN" />
+               </children>
+               <VBox.margin>
+                  <Insets  bottom="20.0" />
+               </VBox.margin>
+            </HBox>
+
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

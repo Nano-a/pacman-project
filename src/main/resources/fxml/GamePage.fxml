@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.geometry.Insets?>
+
+<?import gui.GameView?>
+<AnchorPane id="Back" stylesheets="/css/style.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="gui.Controller">
+    <!-- Création d'une fenêtre ancrée (AnchorPane) avec un identifiant 'Back' pour le style -->
+    <children>
+       <HBox spacing="10" fillHeight="true" >
+           <!--  boîte horizontale (HBox) pour organiser les éléments -->
+           <children>
+                <ImageView fx:id="esc" fitWidth="35" fitHeight="35" HBox.hgrow="ALWAYS">
+                    <!-- image de la touche echap -->
+                    <Image url="@../esc.png"/>
+                    <HBox.margin>
+                        <Insets right="50.0" />
+                    </HBox.margin>
+                </ImageView>
+               <!-- Affichage d'une image pour les vies -->
+                <ImageView fx:id="livesImage" fitWidth="75" fitHeight="35"   HBox.hgrow="ALWAYS">
+                    <Image url="@../threeHearts.gif"/>
+                    <HBox.margin>
+                        <Insets right="90.0" />
+                    </HBox.margin>
+                </ImageView>
+               <!-- Label pour afficher le niveau -->
+               <Label fx:id="level" style="-fx-font-size: 150%; -fx-text-fill: #ffffff; -fx-font-family: 'Avenir Next Condensed'; -fx-font-weight:bold "  HBox.hgrow="ALWAYS" >
+                    <HBox.margin>
+                        <Insets  right="75.0" />
+                    </HBox.margin>
+                </Label>
+               <!-- Label pour afficher le score -->
+               <Label fx:id="score" style="-fx-font-size: 150%; -fx-text-fill: #ffffff; -fx-font-family: 'Avenir Next Condensed'; -fx-font-weight:bold "  HBox.hgrow="ALWAYS" >
+                    <HBox.margin>
+                        <Insets  left="50.0" />
+                    </HBox.margin>
+                </Label>
+            </children>
+       </HBox>
+        <!-- Affichage de la vue du jeu Pac-Man -->
+        <GameView fx:id="gameView" AnchorPane.topAnchor="35.0" />
+    </children>
+</AnchorPane>
+

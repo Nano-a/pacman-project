@@ -1,0 +1,32 @@
+Pour avoir une vision global du projet pacman
+
+    src/ :
+        main/ : Contient le code source principal du jeu, y compris les fichiers Java et les ressources associées.
+        test/ : Contient les tests unitaires pour le projet.
+
+    build/ :
+        Divers sous-dossiers (classes, tmp, resources, libs, scripts, distributions, generated) : Ces dossiers sont utilisés
+	par Gradle pour la compilation, le stockage des ressources, les bibliothèques, les scripts, les distributions et les fichiers générés.
+
+    .git/ :
+        Divers sous-dossiers et fichiers liés à Git (logs, refs, objects, info, hooks) : Ils stockent l'historique des modifications,
+	les références aux branches, les objets de commits, etc.
+        Des fichiers comme description, FETCH_HEAD, config, etc. : Fichiers de configuration et de gestion de Git.
+
+    .gradle/ :
+        Contient des configurations spécifiques à Gradle et des données de cache pour le projet.
+
+    bin/ :
+        main/ : Dossier pour les fichiers compilés et prêts à l'exécution.
+
+    gradle/ :
+        wrapper/ : Contient les scripts et les jar nécessaires pour utiliser le Gradle Wrapper, qui assure une version consistante de Gradle
+	pour tous les développeurs du projet.
+
+
+    Fichiers à la racine :
+        readme.md : Fichier Markdown fournissant une vue d'ensemble et des instructions pour le projet.
+        build.gradle : Fichier de configuration principal pour Gradle, définissant les dépendances et les tâches de construction.
+        contact.csv : Peut-être un fichier contenant des informations de contact ou des données liées au projet.
+        gradlew et gradlew.bat : Scripts pour lancer le Gradle Wrapper sous Unix/Linux et Windows.
+        settings.gradle : Fichier de configuration pour Gradle, spécifiant les paramètres du projet.
