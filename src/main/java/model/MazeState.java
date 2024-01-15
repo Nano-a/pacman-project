@@ -593,7 +593,11 @@ public final class MazeState {
                     gameOver = true;
                 }
             }
-        } }
+        }
+         if (isLevelComplete()){
+            startNextLevel();
+            resetPositions();}
+    }
      
     public Direction intToDirection(int x){
         // convertir un entier en direction

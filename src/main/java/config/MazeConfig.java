@@ -83,7 +83,9 @@ public class MazeConfig {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        grid = new Cell[rows][cols]; // on crée la matrice de cellules ; on a 9 types de cellules ;
+        grid = new Cell[21][19]; // on crée la matrice de cellules ; on a 9 types de cellules ;
+        this.rows = 21;
+        this.cols = 19;
         // une grille de cellules de la classe Cell qui est un enum et chaque Cell correspond en vue à une image
         // et non pas à un type Rectangle de Javafx comme auparavant avec des walls
         int row = 0;

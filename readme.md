@@ -8,12 +8,11 @@ Le principe est archi-connu et plutôt simple (se référer à la page Wikipédi
  
 Pour l'instant, seules quelques fonctionnalités basiques sont implémentées... et encore avec des bugs et des tonnes de maladresses. Il est temps de finir ce jeu !
 
-Objectifs de développement :
+## Rapport :
+Le rapport du projet est accessible sur GITLAB section WIKI ( Page : Rapport (Évaluation) )
 
-- déboguer
-- rationaliser et documenter le code
-- implémenter tout ce qu'on trouve dans tout PacMan de base: le labyrinthe classique, les stratégies des fantômes, les bonus à ramasser, l'effet des super pac-gommes, ...)
-- aller plus loin : plusieurs niveaux, 3D(RTX ON), multijoueur(CO-OP), hardcore mode ... (ce ne sont que des suggestions)
+## Vidéo De Présentation :
+Voici le lien de la vidéo de Présentation accessible sur Youtube : https://youtu.be/0knIP1q6Q6w?feature=shared
 
 ## Instructions
 
