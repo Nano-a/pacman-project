@@ -1,0 +1,3 @@
+[submodule "pacman"]
+	path = pacman
+	url = https://gaufre.informatique.univ-paris-diderot.fr/mon-equipe/pacman.git
