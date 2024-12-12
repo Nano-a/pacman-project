@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<AnchorPane id="WinBackground" stylesheets="/css/style.css"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="gui.WinPageController"
+            prefHeight="600.0" prefWidth="870.0">
+    <children>
+       <VBox layoutX="290.0" layoutY="250.0" prefHeight="255.0" prefWidth="300.0" >
+          <children>
+        <Button id="menuButton" fx:id="NewGame" onAction="#newGame" prefWidth="400.0" text="NEW GAME">
+          <VBox.margin>
+             <Insets top="70.0" right="30.0" left="30.0" />
+          </VBox.margin>
+        </Button>
+
+       <Button id="menuButton" fx:id="Menu" onAction="#backToMenu" prefWidth="400.0" text="MENU">
+        <VBox.margin>
+          <Insets top="20.0" right="30.0" left="30.0" />
+        </VBox.margin>
+       </Button>
+
+      <Button id="menuButton" fx:id="Quit" onAction="#quitGame" prefWidth="400.0" text="QUIT">
+       <VBox.margin>
+          <Insets top="20.0" right="30.0" left="30.0" />
+       </VBox.margin>
+      </Button>
+
+      </children>
+      </VBox>
+    </children>
+</AnchorPane>

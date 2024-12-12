@@ -1,0 +1,13 @@
+<!--Ce fichier répertorie les modules du projet et leurs configurations dans
+IntelliJ IDEA. Un module dans IntelliJ IDEA représente une partie du code source
+avec sa propre configuration de build. Ce fichier est important pour comprendre
+comment le projet est divisé et géré dans l'IDE.-->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/gameobjects.iml" filepath="$PROJECT_DIR$/gameobjects.iml" />
+    </modules>
+  </component>
+</project>

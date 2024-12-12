@@ -1,0 +1,16 @@
+#À CONNAITRE
+#.gitignore : Ce fichier est utilisé pour spécifier les fichiers
+#ou dossiers que Git devrait ignorer. Dans le contexte d'un dossier
+#.idea, il peut être utilisé pour exclure certains fichiers de
+#configuration spécifiques à l'utilisateur ou à l'environnement
+#local de l'IDE du contrôle de version.
+
+
+# Default ignored files
+/shelf/
+/workspace.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
