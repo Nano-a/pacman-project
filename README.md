@@ -59,10 +59,10 @@ Ce projet est une réimplémentation du célèbre **Pacman** (1980) en **Java 17
 ## 👥 Équipe  
 - **Coordinateur** : Nano-A (Abderrahman Ajinou)  
 - **Contributeurs** :  
-  - NaimCherchour  
-  - [coéquipier2]  
-  - [coéquipier3]  
-  - [coéquipier4]  
+  - Naim Cherchour  
+  - Paul Nabti 
+  - Maroun Gebrayel  
+  - Rayane Arkam  
 
 ---
 
