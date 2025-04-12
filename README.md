@@ -115,7 +115,6 @@ pacman-project/
 ✨ *"Un projet collaboratif alliant nostalgie des arcades et technologies modernes !"*
 
 > 💡 **Note** : Les bugs connus sont documentés dans les *issues*. Contributions bienvenues via PRs (branche `develop`).
-```
 
 ### Améliorations apportées :
 1. **Structure claire** avec séparation visuelle des sections
