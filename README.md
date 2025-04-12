@@ -97,8 +97,9 @@ pacman-project/
 ---
 
 ## 👥 Équipe
-- **Coordinateur** : Nano-A (Abderrahman Ajinou)  
+- **Nom** : RaNaPauMaMane
 - **Contributeurs** :
+  - Moi : Nano-A (Abderrahman Ajinou)
   - Naim Cherchour
   - Paul Nabti
   - Maroun Gebrayel
@@ -129,5 +130,3 @@ Ce README conviendra à :
 - Les développeurs souhaitant contribuer
 - Les enseignants évaluant le projet
 - Les curieux intéressés par la technique
-
-Vous pouvez l'adapter facilement en modifiant les liens ou en ajoutant des sections spécifiques.
