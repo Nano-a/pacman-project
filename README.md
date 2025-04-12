@@ -1,6 +1,3 @@
-Voici le **README.md complet** avec la syntaxe Markdown prête à être copiée dans votre fichier :
-
-```markdown
 # 🎮 Projet Pacman - JavaFX  
 
 *Un jeu d'arcade classique revisité par une équipe d'étudiants de l'Université Paris Cité*  
