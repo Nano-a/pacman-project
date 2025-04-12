@@ -5,7 +5,7 @@
 ---
 
 ## 🌟 À propos  
-Ce projet est une réimplémentation du célèbre **Pacman** (1980) en **Java 17 avec JavaFX**, configuré via **Gradle**. Développé dans le cadre d'un cours universitaire, il s'agit d'une version améliorée du dépôt original de [NaimCherchour](https://github.com/Nano-a/pacman-project).  
+Ce projet est une réimplémentation du célèbre **Pacman** (1980) en **Java 17 avec JavaFX**, configuré via **Gradle**. Développé dans le cadre d'un cours universitaire.  
 
 ### Fonctionnalités actuelles  
 - Déplacement basique de Pacman (flèches directionnelles)  
@@ -76,16 +76,3 @@ Ce projet est une réimplémentation du célèbre **Pacman** (1980) en **Java 17
 
 > 💡 **Note** : Les bugs connus sont documentés dans les *issues* du dépôt. Contributions bienvenues via PRs (branche `develop`).
 ```
-
-### Guide d'utilisation du Markdown :
-- `#` → Titre principal (h1)
-- `##` → Sous-titre (h2)
-- `**texte**` → Gras
-- `*texte*` → Italique
-- ```bash ``` → Bloc de code
-- `[texte](lien)` → Lien hypertexte
-- `| ... |` → Tableau
-- `> ` → Citation
-- `-` → Liste à puces
-
-Copiez-collez ce contenu directement dans votre fichier `README.md` pour un rendu parfait ! 🚀
