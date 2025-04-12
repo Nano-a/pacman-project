@@ -1,0 +1,54 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+    id 'edu.sc.seis.launch4j' version '2.5.4'
+}
+
+configurations {
+    testCompile
+}
+
+group 'fr.u-paris.informatique.cproj'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '5.10.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
+    implementation 'org.openjfx:javafx-controls:21'
+    implementation 'org.openjfx:javafx-fxml:21'
+    implementation 'org.openjfx:javafx-media:21'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+javafx {
+    version = "21"
+    modules = [ 'javafx.controls', 'javafx.fxml','javafx.media','javafx.base']  // Rajout du 'javafx.fxml' et javafx.media pour se servir du SceneBuilder
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs= ["src/main/java"]
+        }
+        resources {
+            srcDirs= ["src/main/resources"]
+        }
+    }
+}
+
+launch4j {
+    outfile = "pacman.exe"
+    mainClassName = 'gui.Launcher'
+    icon = "${projectDir}/src/main/resources/Logo.png"
+}
+
+mainClassName = 'gui.App'
