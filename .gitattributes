@@ -1,0 +1,10 @@
+build/* linguist-generated=true
+bin/* linguist-generated=true
+tmp/* linguist-generated=true
+*.png linguist-generated=true
+*.gif linguist-generated=true
+*.mp3 linguist-generated=true
+*.fxml linguist-vendored=true
+*.java linguist-vendored=true
+*.class linguist-generated=true
+*.jar linguist-generated=true

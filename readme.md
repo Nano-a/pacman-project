@@ -51,6 +51,7 @@ git checkout develop
 
 2. **Compiler & exécuter** :
 ```bash
+gradle wrapper    # Génération de fichier manquante
 ./gradlew build   # Compilation
 ./gradlew run     # Lancement
 ```

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="model.MazeStateTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2025-04-12T13:02:27.620Z" hostname="Nano" time="0.017">
+<testsuite name="model.MazeStateTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2025-04-13T11:49:46" hostname="Nano" time="0.05">
   <properties/>
-  <testcase name="testPacmanMovement()" classname="model.MazeStateTest" time="0.005"/>
-  <testcase name="testGameStateChanged()" classname="model.MazeStateTest" time="0.004"/>
-  <testcase name="testInitialState()" classname="model.MazeStateTest" time="0.004"/>
-  <testcase name="testGhostBehavior()" classname="model.MazeStateTest" time="0.003"/>
+  <testcase name="testPacmanMovement()" classname="model.MazeStateTest" time="0.008"/>
+  <testcase name="testGameStateChanged()" classname="model.MazeStateTest" time="0.013"/>
+  <testcase name="testInitialState()" classname="model.MazeStateTest" time="0.016"/>
+  <testcase name="testGhostBehavior()" classname="model.MazeStateTest" time="0.009"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
