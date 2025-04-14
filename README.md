@@ -51,6 +51,7 @@ git checkout develop
 
 2. **Compiler & exécuter** :
 ```bash
+gradle wrapper    # Génération de fichier manquante
 ./gradlew build   # Compilation
 ./gradlew run     # Lancement
 ```
@@ -115,6 +116,7 @@ pacman-project/
 ✨ *"Un projet collaboratif alliant nostalgie des arcades et technologies modernes !"*
 
 > 💡 **Note** : Les bugs connus sont documentés dans les *issues*. Contributions bienvenues via PRs (branche `develop`).
+```
 
 ### Améliorations à apporter :
 1. **Structure claire** avec séparation visuelle des sections
