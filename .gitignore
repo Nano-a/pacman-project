@@ -23,3 +23,18 @@
 hs_err_pid*
 replay_pid*
 build/distributions/*.tar
+
+# Ignore les fichiers générés par Gradle et le build
+build/
+.gradle/
+*.jar
+*.zip
+*.tar
+
+# Ignore les fichiers temporaires
+*.lock
+*.bin
+
+# Ignore les IDE settings (si applicable)
+*.iml
+.idea/
